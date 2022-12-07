@@ -1,21 +1,30 @@
-\documentclass[dvips,12pt]{article}
+\documentclass{article}
+\usepackage[margin=1.5in]{geometry}
 \usepackage{url}
-\setlength{\oddsidemargin}{0.25in}
-\setlength{\textwidth}{6.5in}
-\setlength{\topmargin}{0in}
-\setlength{\textheight}{8.5in}
 \title{Project Proposal For Java Final Project}
-\author{Lin Yuan, Xinyu Zhang, }
+\author{Lin Yuan, Xinyu Zhang, Haoze He}
 \begin{document}
 \maketitle
 \section{Introduction}
-Some background info
-\section{Task Description and Goal}
-\section{Methodology}
-\subsection{Project Structure}
-\subsection{Work Distribution}
-\subsection{}
-\section{Summary}
-\bibliographystyle{plain}
+According to \cite{wikipedia_2022}, Texas hold 'em (also known as Texas holdem, hold 'em, and holdem) is one of the most popular variants of the card game of poker. Because of the game's level of complexity, it has received some attention from academics. Several quantitative models and different artificial intelligence systems has been proposed. Noticeably, computer Poker Research Group (CPRG) at the University of Alberta has developed a poker playing program called Cepheus. From its publication\cite{bowling2015heads} we can conclude that an optimal counter-strategy to Cepheus can only win 0.000986 big blinds per game on expectation, which make it impossible for a human to win in life time. Hence, in this project, we will build a Texas hold 'em game from scratch and implement an artificial intelligence system that play such game with an arbitrary number of real users. 
+\section{Task Description}
+Overall, in this project, we will build a Texas hold 'em game from scratch, which includes a front-end UI with necessary animations; a backend cloud service along with a cloud database that supports all necessary RESTful services and communications between users while playing. Plus, an advanced AI system that can play the game optimally should also be included. Detailed requirements are described in following sections.
+\subsection{AI System}
+\begin{itemize}
+	\item Adjustable Difficulty: Easy, Medium, Hard
+\end{itemize}
+This part should hand to Haoze He.
+\subsection{Backend System}
+The cloud server will interact with a cloud database and the front end UI. Our program is a registration-based system. In other words, each user will register an account and we will create a profile corresponding to that user into the database. Such profile should includes information like: past game history, current chips left, etc. User should have access to that information from the front-end UI. \\
+
+Also, because Texas hold 'em is a multi-player game, our backend system will supports the communication work among players. Thus, real-time data exchange is also supported by backend server.\\
+
+In summary, the backend system will expose a series of Restful APIs and connect with a database. The server will fully support all communication needs between all ends involved in the system including all front-end users and the database. 
+\subsection{Frontend System}
+\section{Methodology and Work Distribution}
+\subsection{Backend-System - Lin Yuan}
+Particularly, we will use a cloud service provided by a major cloud computing platform such as AWS. In our EC2 server, we will using modern java backend frameworks such as Springboot to develop our service. For the database, we will use a SQL database and use JDBC to support our interaction between server and database.
+\section{Advanced Java Techniques involved}
+\bibliographystyle{plainurl}
 \bibliography{cites.bib}
 \end{document}
