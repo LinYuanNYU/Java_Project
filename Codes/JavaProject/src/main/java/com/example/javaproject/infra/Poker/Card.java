@@ -1,10 +1,15 @@
-package com.example.javaproject.Poker;
+package com.example.javaproject.infra.Poker;
 
 
-import com.fasterxml.jackson.databind.KeyDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+/*
+        Public Interfaces:
+                    1. rankAsString(): Transfer integer rank to string(1->"Ace", 2->"2", ..., 13 -> "King")
+                    2. Creator: Card(enum Color suit, int rank)
+                    3. Getters: getRank, getRankString, getSuit
 
+*/
 
 public class Card {
     public static enum Color {SPADE, HEART, DIAMOND, CLUB};

@@ -1,4 +1,4 @@
-package com.example.javaproject.GameRoom;
+package com.example.javaproject.infra.GameRoom;
 
 import java.util.ArrayList;
 
