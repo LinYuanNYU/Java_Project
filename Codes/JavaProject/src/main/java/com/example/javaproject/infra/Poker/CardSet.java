@@ -23,6 +23,7 @@ public class CardSet {
             }
         }
         used = new ArrayList<>();
+        this.shuffle();
     }
     public void shuffle() {
         Collections.shuffle(this.cards);
