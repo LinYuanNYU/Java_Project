@@ -44,7 +44,7 @@ public class GameHand {
             sharedCards.add(flopCards.get(2));
         }  else if (getBettingRoundName().equals(BettingRoundName.POST_TURN)) {
         Card flopCard = CardSet.getTurnCard();
-        sharedCards.add(flopCard)
+        sharedCards.add(flopCard);
         } else {
             Card riverCard = CardSet.getRiverCard();
             sharedCards.add(riverCard);

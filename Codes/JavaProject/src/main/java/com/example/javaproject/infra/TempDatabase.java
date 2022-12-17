@@ -26,13 +26,10 @@ public class TempDatabase {
     public static boolean checkUser(int userId) {
         return registeredUsers.containsKey(userId);
     }
-    public static void createRoom(int roomId) {
-        GameRoom room = new GameRoom();
+    public static void addRoom(GameRoom room) {
         gameRooms.put(room.getRoomId(), room);
     }
-    public static boolean hasRoom(int roomId) {
-        return gameRooms.containsKey(roomId);
-    }
+
     // Check if roomId is valid(valid roomId, also room state is IDLE, which means game has not started)
     public static boolean checkRoom(int roomId) {
         if (gameRooms.containsKey(roomId) && gameRooms.get(roomId).getState() == GameRoom.GameState.IDLE) {
@@ -40,6 +37,12 @@ public class TempDatabase {
         } else {
             return false;
         }
+    }
+    public static GameRoom getRoom(int roomId) {
+        if (checkRoom(roomId)) {
+            return gameRooms.get(roomId);
+        }
+        return null;
     }
     public static boolean userJoinRoom(int userId, int roomId) {
         return gameRooms.get(roomId).addUser(userId);
