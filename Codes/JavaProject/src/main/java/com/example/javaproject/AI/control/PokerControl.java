@@ -7,7 +7,7 @@ import com.example.javaproject.AI.gameProperties.GameProperties;
 public class PokerControl {
     private final Game game;
     private final GameProperties gameProperties;
-    private final GameHandController gameHandController;
+    private final GameHandControl gameHandController;
 
 
     /*
@@ -16,7 +16,7 @@ public class PokerControl {
      *
      * */
 
-    public PokerControl(final GameHandController gameHandController,
+    public PokerControl(final GameHandControl gameHandController,
                             final GameProperties gameProperties) {
         this.gameHandController = gameHandController;
         this.gameProperties = gameProperties;
