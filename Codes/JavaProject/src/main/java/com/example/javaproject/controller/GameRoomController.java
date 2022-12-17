@@ -1,6 +1,8 @@
 package com.example.javaproject.controller;
 
+import com.example.javaproject.messages.GameStateMessage;
 import com.example.javaproject.messages.JoinRoomRequest;
+import com.example.javaproject.messages.RoomStateMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import com.example.javaproject.infra.GameRoom.GameRoom;
 import com.example.javaproject.infra.TempDatabase;
@@ -11,7 +13,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/room")
+@MessageMapping("/room")
 public class GameRoomController {
     Logger logger = LoggerFactory.getLogger(GameRoomController.class);
 
@@ -19,31 +23,34 @@ public class GameRoomController {
     @PostMapping("/create")
     public int createGameRoom(@RequestBody User user) {
         logger.info(String.format("User: {%d} creates a game room", user.getId()));
-        GameRoom room = new GameRoom();
+        GameRoom room = new GameRoom(user.getId());
         room.addUser(user.getId());
         TempDatabase.addRoom(room);
         return room.getRoomId();
     }
 
-    @MessageMapping("/room")
+    @MessageMapping("/join")
     @SendTo("/topic/game_room")
-    public boolean joinGameRoom(@RequestBody JoinRoomRequest request) {
+    public RoomStateMessage joinGameRoom(@RequestBody JoinRoomRequest request) {
         logger.info(String.format("User: {%d} want to join room: {%d}", request.userId, request.roomId));
-        if (!TempDatabase.checkUser(request.userId)) {
+        /*if (!TempDatabase.checkUser(request.userId)) {
             logger.error(String.format("Invalid userId: %d", request.userId));
             return false;
-        }
+        }*/
         if (TempDatabase.getRoom(request.roomId) == null) {
             createGameRoom(new User(request.userId));
         }
         if (!TempDatabase.checkRoom(request.roomId)) {
-            logger.error(String.format("Invalid roomId: %d", request.roomId));
-            return false;
+            String res = String.format("Invalid roomId: %d", request.roomId);
+            logger.error(res);
+            return null;
         }
-        return TempDatabase.userJoinRoom(request.userId, request.roomId);
+        TempDatabase.userJoinRoom(request.userId, request.roomId);
+        return new RoomStateMessage(request.roomId);
     }
-    @PostMapping("/start")
-    public GameRoom.GameState queryGameRoomState(@RequestBody User user, @RequestParam(name="roomId") int roomId) {
-        return TempDatabase.getRoom(roomId).getState();
+    @MessageMapping("/start")
+    @SendTo("/topic/game_room")
+    public GameStateMessage gameStart(@RequestBody User user) {
+        return null;
     }
 }
