@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
 
 */
 
-public class Card {
+public class Card implements Comparable<Card>{
+
     public static enum Color {SPADE, HEART, DIAMOND, CLUB};
     public final static int rankLength = 13;
     private static String ranks[] = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
@@ -43,4 +44,22 @@ public class Card {
     public int getRank() {
         return this.rank;
     }
+
+    @Override
+    public int compareTo(Card card) {
+        return this.rank - card.rank;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Card)) {
+            return false;
+        }
+
+        Card other = (Card) obj;
+
+        return suits.equals(other.suits) && (rank==other.rank);
+    }
+
+
 }

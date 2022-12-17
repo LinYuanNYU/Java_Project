@@ -16,4 +16,5 @@ public class GreetingController {
         logger.info(String.format(template, name));
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
+
 }

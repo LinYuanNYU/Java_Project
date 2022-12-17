@@ -10,6 +10,8 @@ import java.util.Collections;
                     3. pop(): pop next card
                     4. reInitialize(): discard current cards, regenerate and shuffle a new card set
 */
+
+
 public class CardSet {
     private ArrayList<Card> cards;
     private ArrayList<Card> used;
