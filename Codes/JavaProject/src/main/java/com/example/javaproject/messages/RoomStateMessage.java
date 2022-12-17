@@ -17,4 +17,27 @@ public class RoomStateMessage {
         members = new ArrayList<>();
         members.addAll(room.getUsers());
     }
+    public RoomStateMessage() {}
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
+    }
 }

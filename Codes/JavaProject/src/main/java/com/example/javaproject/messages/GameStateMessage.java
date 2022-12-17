@@ -11,5 +11,5 @@ public class GameStateMessage {
     ArrayList<User> players;
     List<Card> publicCards;
     int waitingForUserId;
-    
+
 }
