@@ -21,7 +21,6 @@ public class GameRoomController {
     public int createGameRoom(@RequestBody User user) {
         logger.info(String.format("User: {%d} creates a game room", user.getId()));
         GameRoom room = new GameRoom(user.getId());
-        room.addUser(user.getId());
         TempDatabase.addRoom(room);
         return room.getRoomId();
     }
@@ -50,11 +49,11 @@ public class GameRoomController {
     public GameStartMessage gameStart(@RequestBody GameStartRequest request) {
         GameRoom room = TempDatabase.getRoom(request.roomId);
         room.start();
-        return new GameStartMessage(room);
+        return new GameStartMessage(request.roomId);
     }
     @MessageMapping("/action")
     @SendTo("/topic/game_room")
-    public ActionMessage gameStart(@RequestBody ActionMessage action) {
+    public ActionMessage gameAction(@RequestBody ActionMessage action) {
         GameRoom room = TempDatabase.getRoom(action.getRoomId());
         room.action(action);
         return action;

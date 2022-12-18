@@ -1,6 +1,7 @@
 package com.example.javaproject.messages;
 
 import com.example.javaproject.infra.GameRoom.GameRoom;
+import com.example.javaproject.infra.TempDatabase;
 import com.example.javaproject.infra.User.User;
 
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ public class GameStartMessage {
     int waitingForUserId;
 
     public GameStartMessage() {}
-    public GameStartMessage(GameRoom room) {
-        players = room.getUsers();
+    public GameStartMessage(int roomId) {
+        GameRoom room = TempDatabase.getRoom(roomId);
+        players = new ArrayList<>();
+        players.addAll(room.getUsers());
         int idx = new Random().nextInt(players.size() - 1);
         waitingForUserId = players.get(idx).getId();
         money = 0;
@@ -37,5 +40,8 @@ public class GameStartMessage {
 
     public void setWaitingForUserId(int waitingForUserId) {
         this.waitingForUserId = waitingForUserId;
+    }
+    public ArrayList<User> getPlayers() {
+        return this.players;
     }
 }
