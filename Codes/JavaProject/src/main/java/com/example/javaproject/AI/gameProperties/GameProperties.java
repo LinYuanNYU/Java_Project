@@ -10,7 +10,7 @@ public class GameProperties {
     private final int bigBlind;
     private final int initialMoney;
     private final int numberOfHands;
-    private final List<Player> players = new ArrayList<Player>();
+    private static final List<Player> players = new ArrayList<Player>();
 
     protected GameProperties(int numberOfHands, int initialMoney, int bigBlind, int smallBlind) {
         this.numberOfHands = numberOfHands;
@@ -39,7 +39,7 @@ public class GameProperties {
         return players;
     }
 
-    protected void addPlayer(Player player){
+    protected static void addPlayer(Player player){
         players.add(player);
     }
 

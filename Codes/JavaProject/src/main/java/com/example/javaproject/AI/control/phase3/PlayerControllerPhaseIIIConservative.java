@@ -19,10 +19,8 @@ import java.util.Random;
 
 public class PlayerControllerPhaseIIIConservative extends PlayerControllerPhaseIII {
 
-    public PlayerControllerPhaseIIIConservative(PlayerControllerPhaseIIBluffConservative playerControllerPhaseIIBluffConservative,
-                                                HandStrengthEvaluator handStrengthEvaluator,
-                                                OpponentModeler opponentModeler) {
-        super(playerControllerPhaseIIBluffConservative, handStrengthEvaluator, opponentModeler);
+    public PlayerControllerPhaseIIIConservative() {
+        super();
     }
 
 

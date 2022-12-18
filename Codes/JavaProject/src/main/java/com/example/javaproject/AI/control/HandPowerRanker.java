@@ -11,14 +11,14 @@ import com.example.javaproject.AI.utils.MapList;
 import java.util.*;
 
 public class HandPowerRanker {
-    private final Comparator<Integer> cardNumberComparator = new Comparator<Integer>() {
+    private static final Comparator<Integer> cardNumberComparator = new Comparator<Integer>() {
 
         public int compare(Integer cardNumber1, Integer cardNumber2) {
             return cardNumber1 - cardNumber2;
         }
     };
 
-    public HandPower rank(List<Card> cards) {
+    public static HandPower rank(List<Card> cards) {
         MapList<Integer, Card> numberGroup = getNumberGroup(cards);
         MapList<Card.Color, Card> suitGroup = getSuitGroup(cards);
         List<Card> cardsSortedByNumber = getCardsSortedByNumber(cards);
@@ -91,7 +91,7 @@ public class HandPowerRanker {
                 bestCardsNumberInList(cardsSortedByNumber));
     }
 
-    private List<Integer> getFullHouse(MapList<Integer, Card> numberGroup) {
+    private static List<Integer> getFullHouse(MapList<Integer, Card> numberGroup) {
         List<Integer> fullHouseCardNumbers = new ArrayList<Integer>();
 
         List<Integer> cardNumbers = new ArrayList<Integer>(
@@ -121,7 +121,7 @@ public class HandPowerRanker {
         return fullHouseCardNumbers;
     }
 
-    private List<Integer> calculateTwoPairsTie(
+    private static List<Integer> calculateTwoPairsTie(
             List<Integer> pairsCardNumber, List<Card> cardsSortedByNumber) {
         Collections.sort(pairsCardNumber, cardNumberComparator);
         Collections.reverse(pairsCardNumber);
@@ -138,7 +138,7 @@ public class HandPowerRanker {
         return null;
     }
 
-    private List<Integer> getPairs(MapList<Integer, Card> numberGroup) {
+    private static List<Integer> getPairs(MapList<Integer, Card> numberGroup) {
         List<Integer> pairsCardNumber = new ArrayList<Integer>();
         for (List<Card> cards : numberGroup) {
             if (cards.size() == 2) {
@@ -155,28 +155,28 @@ public class HandPowerRanker {
         return pairsCardNumber;
     }
 
-    private List<Integer> calculateFlushTie(Card.Color flushSuit,
-                                               MapList<Card.Color, Card> suitGroup) {
+    private static List<Integer> calculateFlushTie(Card.Color flushSuit,
+                                                   MapList<Card.Color, Card> suitGroup) {
         List<Card> cards = suitGroup.get(flushSuit);
         return bestCardsNumberInList(cards);
     }
 
-    private List<Integer> bestCardsNumberInList(List<Card> cards) {
+    private static List<Integer> bestCardsNumberInList(List<Card> cards) {
         List<Integer> cardNumbers = cardsToCardNumber(cards);
         Collections.sort(cardNumbers, cardNumberComparator);
         Collections.reverse(cardNumbers);
         return cardNumbers.subList(0, 5);
     }
 
-    private List<Card> getCardsSortedByNumber(List<Card> cards) {
+    private static List<Card> getCardsSortedByNumber(List<Card> cards) {
         List<Card> cardsSortedByNumber = new ArrayList<Card>(cards);
         Collections.sort(cardsSortedByNumber);
 
         return cardsSortedByNumber;
     }
 
-    private List<Integer> calculateSameKindTie(Integer sameKindCount,
-                                               Integer sameKindCardNumber, List<Card> cardsSortedByNumber) {
+    private static List<Integer> calculateSameKindTie(Integer sameKindCount,
+                                                      Integer sameKindCardNumber, List<Card> cardsSortedByNumber) {
         List<Integer> tieBreakingInformation = new ArrayList<Integer>();
         tieBreakingInformation.add(sameKindCardNumber);
 
@@ -193,8 +193,8 @@ public class HandPowerRanker {
         return tieBreakingInformation;
     }
 
-    private Integer getCardNumberForCount(Integer count,
-                                             MapList<Integer, Card> numberGroup) {
+    private static Integer getCardNumberForCount(Integer count,
+                                                 MapList<Integer, Card> numberGroup) {
         for (Map.Entry<Integer, List<Card>> entry : numberGroup.entrySet()) {
             if (entry.getValue().size() == count) {
                 return entry.getKey();
@@ -203,13 +203,13 @@ public class HandPowerRanker {
         return null;
     }
 
-    private Integer getStraight(MapList<Integer, Card> numberGroup) {
+    private static Integer getStraight(MapList<Integer, Card> numberGroup) {
         List<Integer> cardNumbers = new ArrayList<Integer>(
                 numberGroup.keySet());
         return getStraightNumber(cardNumbers);
     }
 
-    private Integer getStraightFlushNumber(MapList<Card.Color, Card> suitGroup) {
+    private static Integer getStraightFlushNumber(MapList<Card.Color, Card> suitGroup) {
         Card.Color flushSuit = getFlush(suitGroup);
         if (flushSuit == null) {
             return null;
@@ -221,7 +221,7 @@ public class HandPowerRanker {
         return getStraightNumber(cardNumbers);
     }
 
-    private List<Integer> cardsToCardNumber(List<Card> cards) {
+    private static List<Integer> cardsToCardNumber(List<Card> cards) {
         List<Integer> cardNumbers = new ArrayList<Integer>();
 
         for (Card card : cards) {
@@ -230,7 +230,7 @@ public class HandPowerRanker {
         return cardNumbers;
     }
 
-    private Integer getStraightNumber(List<Integer> cardNumbers) {
+    private static Integer getStraightNumber(List<Integer> cardNumbers) {
         Integer straightNumber = null;
         int straightCount = 1;
         int prevPower = 0;
@@ -249,7 +249,7 @@ public class HandPowerRanker {
         return straightNumber;
     }
 
-    private Card.Color getFlush(MapList<Card.Color, Card> suitGroup) {
+    private static Card.Color getFlush(MapList<Card.Color, Card> suitGroup) {
         for (List<Card> cards : suitGroup) {
             if (cards.size() >= 5) {
                 return cards.get(0).getSuits();
@@ -258,7 +258,7 @@ public class HandPowerRanker {
         return null;
     }
 
-    private MapList<Integer, Card> getNumberGroup(List<Card> cards) {
+    private static MapList<Integer, Card> getNumberGroup(List<Card> cards) {
         MapList<Integer, Card> numberGroup = new MapList<Integer, Card>();
         for (Card card : cards) {
             numberGroup.add(card.getRank(), card);
@@ -266,7 +266,7 @@ public class HandPowerRanker {
         return numberGroup;
     }
 
-    private MapList<Card.Color, Card> getSuitGroup(List<Card> cards) {
+    private static MapList<Card.Color, Card> getSuitGroup(List<Card> cards) {
         MapList<Card.Color, Card> suitGroup = new MapList<Card.Color, Card>();
         for (Card card : cards) {
             suitGroup.add(card.getSuits(), card);

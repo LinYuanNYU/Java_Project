@@ -13,15 +13,12 @@ import com.example.javaproject.AI.Persistent.*;
 import java.util.*;
 
 public class OpponentModeler {
-    private final Map<Player, List<ContextAggregate>> playerModels = new HashMap<Player, List<ContextAggregate>>();
-    private final OpponentsModelPersistence opponentsModelPersistence;
+    private static final Map<Player, List<ContextAggregate>> playerModels = new HashMap<Player, List<ContextAggregate>>();
 
-
-    public OpponentModeler(final OpponentsModelPersistence opponentsModelPersistence) {
-        this.opponentsModelPersistence = opponentsModelPersistence;
+    public OpponentModeler() {
     }
 
-    public void save(GameHand gameHand) {
+    public static void save(GameHand gameHand) {
         Deque<Player> showdownPlayers = gameHand.getPlayers();
 
         for (BettingRound bettingRound : gameHand.getBettingRounds()) {
@@ -36,20 +33,20 @@ public class OpponentModeler {
         }
     }
 
-    public ModelResult getEstimatedHandStrength(ContextAction contextAction) {
-        return opponentsModelPersistence.retrieve(contextAction);
+    public static ModelResult getEstimatedHandStrength(ContextAction contextAction) {
+        return OpponentsModelPersistence.retrieve(contextAction);
     }
 
-    public Map<Player, List<ContextAggregate>> getPlayerModels() {
+    public static Map<Player, List<ContextAggregate>> getPlayerModels() {
         return playerModels;
     }
 
-    private void addToPlayerModel(ContextInfo contextInformation) {
+    private static void addToPlayerModel(ContextInfo contextInformation) {
         ContextAggregate contextAggregate = getContextAggregate(contextInformation.getContextAction());
         contextAggregate.addOccurrence(contextInformation.getHandStrength());
     }
 
-    private ContextAggregate getContextAggregate(ContextAction contextAction) {
+    private static ContextAggregate getContextAggregate(ContextAction contextAction) {
         Player player = contextAction.getPlayer();
 
         List<ContextAggregate> contextAggregates = playerModels.get(player);

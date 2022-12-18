@@ -17,14 +17,14 @@ import java.util.List;
 
 public class HandStrengthEvaluator {
 
-    private final HandPowerRanker handPowerRanker;
 
 
-    public HandStrengthEvaluator(final HandPowerRanker handPowerRanker) {
-        this.handPowerRanker = handPowerRanker;
+
+    public HandStrengthEvaluator() {
+
     }
 
-    public double evaluate(List<Card> playerHoleCards, List<Card> sharedCards, Integer numberOfPlayers) {
+    public static double evaluate(List<Card> playerHoleCards, List<Card> sharedCards, Integer numberOfPlayers) {
         if(sharedCards == null || sharedCards.isEmpty()){
             return 0d;
         }
@@ -47,13 +47,13 @@ public class HandStrengthEvaluator {
         List<Card> playerCards = new ArrayList<Card>();
         playerCards.addAll(playerHoleCards);
         playerCards.addAll(sharedCards);
-        HandPower playerRank = handPowerRanker.rank(playerCards);
+        HandPower playerRank = HandPowerRanker.rank(playerCards);
 
         for (List<Card> couple : couplesOfCards) {
             List<Card> opponentCards = new ArrayList<Card>();
             opponentCards.addAll(couple);
             opponentCards.addAll(sharedCards);
-            HandPower opponentRank = handPowerRanker.rank(opponentCards);
+            HandPower opponentRank = HandPowerRanker.rank(opponentCards);
 
             int result = playerRank.compareTo(opponentRank);
             if (result > 0) {

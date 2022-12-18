@@ -13,18 +13,15 @@ import com.example.javaproject.AI.Evaluator.*;
 import com.example.javaproject.AI.gameModel.opponentModel.*;
 
 public abstract class PlayerControllerPhaseII extends PlayerControl{
-    private final HandStrengthEvaluator handStrengthEvaluator;
-	private final HandPotentialEvaluator handPotentialEvaluator;
-	private final HandPotentialEvaluator1 handPotentialEvaluator1;
 
-    protected PlayerControllerPhaseII(final HandStrengthEvaluator handStrengthEvaluator,final HandPotentialEvaluator handPotentialEvaluator,final HandPotentialEvaluator1 handPotentialEvaluator1) {
-        this.handStrengthEvaluator = handStrengthEvaluator;
-        this.handPotentialEvaluator = handPotentialEvaluator;
-        this.handPotentialEvaluator1 = handPotentialEvaluator1;
+
+
+    protected PlayerControllerPhaseII() {
+
     }
 
     protected double calculateCoefficient(GameHand gameHand, Player player) {
-        double p = this.handStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
+        double p = HandStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
                 gameHand.getPlayers().size());
         double EHS = p;
         EHS = p + (1 - p) * calculatehandpotential(gameHand, player);
@@ -49,12 +46,12 @@ public abstract class PlayerControllerPhaseII extends PlayerControl{
     	
     	double q = 0;
         if(gameHand.getBettingRoundName().equals(BettingRoundName.POST_FLOP)){
-        	q = this.handPotentialEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
+        	q = HandPotentialEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
                 gameHand.getPlayers().size(),gameHand);
         }
         
         if(gameHand.getBettingRoundName().equals(BettingRoundName.POST_TURN)){
-        	q = this.handPotentialEvaluator1.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
+        	q = HandPotentialEvaluator1.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
                 gameHand.getPlayers().size(),gameHand);
         }
         return q;

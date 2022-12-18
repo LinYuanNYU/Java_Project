@@ -1,7 +1,7 @@
 package com.example.javaproject.AI.control;
 import com.example.javaproject.AI.Game;
 import com.example.javaproject.AI.gameProperties.GameProperties;
-
+import com.example.javaproject.infra.Poker.CardSet;
 
 
 public class PokerControl {
@@ -27,9 +27,10 @@ public class PokerControl {
 
     public void play() {
         for (int i = 0; i < gameProperties.getNumberOfHands(); i++) {
+            CardSet carSet = new CardSet();
             gameHandController.play(game);
             game.setNextDealer();
         }
-
     }
+
 }
