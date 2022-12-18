@@ -3,6 +3,7 @@ package com.example.javaproject.AI.gameModel;
 import com.example.javaproject.AI.Player;
 import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.infra.Poker.Card;
+import com.example.javaproject.infra.Poker.Deck;
 
 import com.example.javaproject.AI.gameProperties.GameProperties;
 import com.example.javaproject.AI.gameModel.opponentModel.ContextPlayer;
@@ -16,9 +17,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
+
+/*
+ * Players input for GameHand should have all players including AI and human
+ *
+ * */
+
 public class GameHand {
     private final Deque<Player> players;
-
+    private final Deck deck;
     private final List<Card> sharedCards = new ArrayList<Card>();
     private final List<BettingRound> bettingRounds = new ArrayList<BettingRound>();
     private Boolean hasRemoved = true;
@@ -26,6 +33,7 @@ public class GameHand {
 
     public GameHand(List<Player> players) {
         this.players = new LinkedList<Player>(players);
+        deck = new Deck();
     }
 
     public void nextRound() {
@@ -119,16 +127,26 @@ public class GameHand {
         }
     }
 
+    /*
+    * Returen PotOdds
+    * calculate the Risk-invest tradeoff probability:
+    * amountNeededToCall / (amountNeededToCall + getTotalBets())
+    * */
+
     public double calculatePotOdds(Player player) {
         BettingRound currentBettingRound = getCurrentBettingRound();
         int amountNeededToCall = currentBettingRound.getHighestBet() - currentBettingRound.getBetForPlayer(player);
         return (double) amountNeededToCall / (amountNeededToCall + getTotalBets());
     }
 
-    protected ArrayList<Card> getDeck() {
-        ArrayList<Card> DeckCards = CardSet.getFlopCards();
-        DeckCards.add(CardSet.getTurnCard());
-        DeckCards.add(CardSet.getRiverCard());
-        return DeckCards;
-    }
+    /*
+    * getDeck returns
+    *
+    * */
+//    protected ArrayList<Card> getDeck() {
+//        ArrayList<Card> DeckCards = CardSet.getFlopCards();
+//        DeckCards.add(CardSet.getTurnCard());
+//        DeckCards.add(CardSet.getRiverCard());
+//        return DeckCards;
+//    }
 }
