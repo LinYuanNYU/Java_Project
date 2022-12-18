@@ -16,7 +16,7 @@ public class HandPowerRanker {
         public int compare(Integer cardNumber1, Integer cardNumber2) {
             return cardNumber1 - cardNumber2;
         }
-    }
+    };
 
     public HandPower rank(List<Card> cards) {
         MapList<Integer, Card> numberGroup = getNumberGroup(cards);
