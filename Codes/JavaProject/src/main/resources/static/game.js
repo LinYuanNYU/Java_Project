@@ -2,6 +2,7 @@ var gameClient = null;
 var gameFlag = false;
 var curValue = 5;
 var curPlayerId = 0;
+var numOfPlayer = 0;
 function gameClientConnect() {
     var socket = new SockJS('/java_project');
     gameClient = Stomp.over(socket);
@@ -17,6 +18,7 @@ function handleGameStartMessage(obj) {
         counter += 1;
     }
     let len = obj['players'].length;
+    numOfPlayer = len;
     var pos = 1;
     for (let i = counter; i < 6 + counter && i < counter + len; i++) {
         console.log(obj['players'][i%len]['id'])
@@ -26,6 +28,7 @@ function handleGameStartMessage(obj) {
             $("#player0").append(append_str);
             if (obj['players'][i%len]['id'] === obj['waitingForUserId']) {
                 $("#player0-name-chips").css("border", "5px solid yellow");
+                curPlayerId = 0;
             }
         } else {
             append_str = "<p id='player" + pos + "-name'>" + obj['players'][i%len]['id'] + "</p>" +
@@ -33,6 +36,7 @@ function handleGameStartMessage(obj) {
             $("#player" + pos).append(append_str);
             if (obj['players'][i%len]['id'] === obj['waitingForUserId']) {
                 $("#player" + pos + "-name-chips").css("border", "5px solid yellow");
+                curPlayerId = pos;
             }
             pos += 1;
         }
@@ -43,8 +47,8 @@ function handleActionMessage(obj) {
     const Action = {FOLD: "FOLD", BET: "BET", RAISE: "RAISE"}
     $("#player" + curPlayerId + "-name-chips").css("border", "0px solid yellow");
     curPlayerId++;
-    
-    $("#player" + curPlayerId + "-name-chips").css("border", "0px solid yellow");
+    curPlayerId = curPlayerId % numOfPlayer;
+    $("#player" + curPlayerId + "-name-chips").css("border", "5px solid yellow");
 }
 function gameCallBack(msg) {
     obj = JSON.parse(msg.body);
@@ -55,14 +59,18 @@ function gameCallBack(msg) {
     }
 }
 function fold() {
+    if (curPlayerId === 0) {
 
+    }
 }
 function call() {
-    const Action = {FOLD: "FOLD", BET: "BET", RAISE: "RAISE"}
-    send_str = JSON.stringify({'userId': sessionStorage.getItem('userId'),
-                                     'roomId': 1,
-                                     'action': Action.BET})
-    gameClient.send("/app/room/action", {}, send_str);
+    if (curPlayerId === 0) {
+        const Action = {FOLD: "FOLD", BET: "BET", RAISE: "RAISE"}
+        send_str = JSON.stringify({'userId': sessionStorage.getItem('userId'),
+            'roomId': 1,
+            'action': Action.BET})
+        gameClient.send("/app/room/action", {}, send_str);
+    }
 }
 function startGame() {
     if (gameFlag == false) {
