@@ -33,8 +33,11 @@ public class GameRoomController {
             logger.error(String.format("Invalid userId: %d", request.userId));
             return false;
         }*/
+        if (!TempDatabase.checkUser(request.userId)) {
+            TempDatabase.registerUser(request.userId, request.money);
+        }
         if (TempDatabase.getRoom(request.roomId) == null) {
-            createGameRoom(new User(request.userId));
+            createGameRoom(TempDatabase.getUser(request.userId));
         }
         if (!TempDatabase.checkRoom(request.roomId)) {
             String res = String.format("Invalid roomId: %d", request.roomId);

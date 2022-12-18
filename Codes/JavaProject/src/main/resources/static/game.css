@@ -48,6 +48,12 @@ html {
     top: 280px;
 
 }
+#board-bet {
+    position: absolute;
+    left: 310px;
+    top: 300px;
+
+}
 .card {
     background-image: url('./images/cardback.png');
     background-size: 100%;

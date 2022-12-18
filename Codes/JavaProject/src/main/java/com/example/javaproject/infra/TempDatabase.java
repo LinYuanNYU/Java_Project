@@ -19,8 +19,8 @@ public class TempDatabase {
     // they should work similar to SQL database interfaces we will have in the future
 
     // register user to database
-    public static void registerUser(String userId) {
-        registeredUsers.put(userId, new User(userId));
+    public static void registerUser(String userId, int initialMoney) {
+        registeredUsers.put(userId, new User(userId, initialMoney));
     }
     // Check if user is a registered user
     public static boolean checkUser(int userId) {
@@ -38,6 +38,12 @@ public class TempDatabase {
             return false;
         }
     }
+    public static boolean checkUser(String userId) {
+        return registeredUsers.containsKey(userId);
+    }
+    public static User getUser(String userId) {
+        return registeredUsers.getOrDefault(userId, null);
+    }
     public static GameRoom getRoom(int roomId) {
         if (checkRoom(roomId)) {
             return gameRooms.get(roomId);
@@ -46,8 +52,9 @@ public class TempDatabase {
     }
     public static boolean userJoinRoom(String userId, int roomId) {
         GameRoom room = gameRooms.get(roomId);
+        User user = TempDatabase.getUser(userId);
         if (!room.getUserIDs().contains(userId)) {
-            return gameRooms.get(roomId).addUser(userId);
+            return gameRooms.get(roomId).addUser(user);
         } else {
             return false;
         }

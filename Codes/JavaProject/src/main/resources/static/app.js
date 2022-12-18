@@ -1,39 +1,38 @@
 var loginClient = null;
-
-function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-    }
-    else {
-        $("#conversation").hide();
-    }
-    $("#greetings").html("");
-}
+var members = [];
 function loginClientConnect() {
     var socket = new SockJS('/java_project');
     loginClient = Stomp.over(socket);
     loginClient.connect({}, function (frame) {
-        setConnected(true);
         console.log('Connected: ' + frame);
         loginClient.subscribe('/topic/game_room', loginCallback);
     });
 }
 
-function sendName() {
-    loginClient.send("/app/room/join", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
+function joinRoom() {
+    loginClient.send("/app/room/join", {}, JSON.stringify({'userId': $("#name").val(),
+                                                                 'roomId': 1,
+                                                                 'money': $("#money").val()}));
 }
 function loginCallback(msg) {
     obj = JSON.parse(msg.body);
     if (obj.hasOwnProperty("gameStartFlag") && obj['gameStartFlag'] === true) {
         sessionStorage.setItem('userId', $("#name").val())
         window.location.href = "./game.html";
+    } else {
+        showGreeting(obj)
     }
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showGreeting(obj) {
+    for (let i = 0; i < obj['members'].length; i++) {
+        if (!members.includes(obj['members'][i]['id'])) {
+            members.push(obj['members'][i]['id']);
+            message = "User: " + obj['members'][i]['id'] +" joined the waiting room with " + obj['members'][i]['money']
+            $("#greetings").append("<tr><td>" + message + "</td></tr>");
+        }
+    }
+
 }
 function start() {
     loginClient.send("/app/room/start", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
@@ -48,6 +47,6 @@ $(function () {
         e.preventDefault();
     });
     loginClientConnect();
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { joinRoom(); });
 });
 
