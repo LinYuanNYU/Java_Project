@@ -3,29 +3,30 @@ package com.example.javaproject.messages;
 public class ActionMessage {
     private String userId;
     private int roomId;
-    private enum Action {FOLD, BET, RAISE}
     private int raiseTo;
     private String type = "ActionMessage";
-    Action action;
-    public ActionMessage(String userId, Action action, int raiseTo) {
+    String action; // "FOLD", "BET", "RAISE"
+    public ActionMessage(String userId, String action, int roomId, int raiseTo) {
         this.userId = userId;
         this.action = action;
         this.raiseTo = raiseTo;
+        this.roomId = roomId;
     }
 
     public String getType() {
         return type;
     }
-
+    public void setAction(String action) {
+        this.action = action;
+    }
+    public String getAction() {
+        return this.action;
+    }
     public void setType(String type) {
         this.type = type;
     }
 
     public ActionMessage() {}
-
-    public Action getAction() {
-        return action;
-    }
 
     public int getRoomId() {
         return roomId;
@@ -47,7 +48,4 @@ public class ActionMessage {
         this.userId = userId;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
-    }
 }

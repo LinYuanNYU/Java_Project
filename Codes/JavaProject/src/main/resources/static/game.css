@@ -42,7 +42,12 @@ html {
     width: 100%;
     line-height: 100%;
 }
+#board-money {
+    position: absolute;
+    left: 310px;
+    top: 280px;
 
+}
 .card {
     background-image: url('./images/cardback.png');
     background-size: 100%;

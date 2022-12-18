@@ -10,6 +10,7 @@ public class User {
     private List<Card> cards;
     public User(String userId) {
         this.userId = userId;
+        money = 100;
     }
     public User() {}
     public void setUserId(String userId) {
