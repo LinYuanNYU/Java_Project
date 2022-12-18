@@ -15,7 +15,7 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = {RequestMethod.POST, RequestMethod.PUT})
     public User register(@RequestBody User user) {
         logger.info("User id: " + String.valueOf(user.getId()));
-        TempDatabase.registerUser(user.getId());
+        TempDatabase.registerUser(user.getId(), user.getMoney());
         return user;
     }
 }

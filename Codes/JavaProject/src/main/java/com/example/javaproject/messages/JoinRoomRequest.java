@@ -3,6 +3,8 @@ package com.example.javaproject.messages;
 public class JoinRoomRequest {
     public String userId;
     public int roomId;
+    public int money;
+
 
     public void setUserId(String userId) {
         this.userId = userId;

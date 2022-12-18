@@ -32,8 +32,8 @@ public class GameRoom {
         return ownerId;
     }
 
-    public boolean addUser(String userId) {
-        return this.users.add(new User(userId));
+    public boolean addUser(User user) {
+        return this.users.add(user);
     }
     public GameState getState() {
         return this.state;

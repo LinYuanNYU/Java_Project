@@ -8,9 +8,9 @@ public class User {
     private String userId;
     private int money;
     private List<Card> cards;
-    public User(String userId) {
+    public User(String userId, int initialMoney) {
         this.userId = userId;
-        money = 100;
+        money = initialMoney;
     }
     public User() {}
     public void setUserId(String userId) {
