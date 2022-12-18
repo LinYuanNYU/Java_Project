@@ -2,7 +2,6 @@ package com.example.javaproject.AI.control;
 
 
 
-
 import com.example.javaproject.infra.Poker.Card;
 import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.AI.gameModel.*;

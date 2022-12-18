@@ -10,6 +10,7 @@ import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.AI.gameModel.*;
 import com.example.javaproject.AI.gameModel.opponentModel.*;
 import com.example.javaproject.AI.Evaluator.*;
+import com.example.javaproject.AI.gameModel.opponentModel.*;
 
 public abstract class PlayerControllerPhaseII extends PlayerControl{
     private final HandStrengthEvaluator handStrengthEvaluator;
@@ -37,7 +38,7 @@ public abstract class PlayerControllerPhaseII extends PlayerControl{
             EHS += 0.2;
         }
         // Lot of raises, be careful
-        if (ContextRaise.valueFor(gameHand.getCurrentBettingRound().getNumberOfRaises()).equals(ContextRaises.MANY)) {
+        if (ContextRaise.valueFor(gameHand.getCurrentBettingRound().getNumberOfRaises()).equals(ContextRaise.MANY)) {
             EHS -= 0.2;
         }
 

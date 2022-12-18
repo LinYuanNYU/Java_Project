@@ -2,7 +2,6 @@ package com.example.javaproject.AI.control;
 
 
 
-import texasai.controller.opponentmodeling.OpponentModeler;
 
 import com.example.javaproject.AI.gameModel.*;
 import com.example.javaproject.AI.Game;
@@ -17,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.javaproject.AI.Persistent.*;
+import com.example.javaproject.AI.gameModel.opponentModel.*;
 
 public class GameHandControl {
 

@@ -1,0 +1,14 @@
+
+- Easy:
+1. Easy Normal
+2. Easy Bluff
+
+-Middle:
+1. Mid-Bluff
+2. Mid-Bluff+Aggresive
+3. Mid-Bluff-Conservative
+4. Mid-Normal
+
+-Hard
+-Hard Aggresive
+-Hard Conservative

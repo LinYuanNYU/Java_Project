@@ -12,12 +12,12 @@ public class PokerControl {
 
     /*
      * Use Game Controller to set grames properties for a singel hand game.
-    *  Each hand will init a new gameHandController.
+     *  Each hand will init a new gameHandController.
      *
      * */
 
     public PokerControl(final GameHandControl gameHandController,
-                            final GameProperties gameProperties) {
+                        final GameProperties gameProperties) {
         this.gameHandController = gameHandController;
         this.gameProperties = gameProperties;
 
@@ -32,3 +32,4 @@ public class PokerControl {
         }
 
     }
+}
