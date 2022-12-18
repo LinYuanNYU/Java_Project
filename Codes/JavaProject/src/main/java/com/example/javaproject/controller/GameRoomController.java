@@ -51,7 +51,9 @@ public class GameRoomController {
     @SendTo({"/topic/in_game", "/topic/game_room"})
     public GameStartMessage gameStart(@RequestBody GameStartRequest request) {
         GameRoom room = TempDatabase.getRoom(request.roomId);
-        room.start();
+        if (room != null) {
+            room.start();
+        }
         return new GameStartMessage(request.roomId);
     }
     @MessageMapping("/action")
@@ -60,5 +62,10 @@ public class GameRoomController {
         GameRoom room = TempDatabase.getRoom(action.getRoomId());
         room.action(action);
         return action;
+    }
+    @MessageMapping("/pull_cards")
+    @SendTo("/topic/in_game")
+    public CardsResponseMessage pullCards(@RequestBody CardsRequestMessage request) {
+        return new CardsResponseMessage(request.roomId);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.javaproject.messages;
 
+import com.example.javaproject.AI.Game;
 import com.example.javaproject.infra.GameRoom.GameRoom;
 import com.example.javaproject.infra.TempDatabase;
 import com.example.javaproject.infra.User.User;
@@ -18,6 +19,10 @@ public class GameStartMessage {
     public GameStartMessage(int roomId) {
         GameRoom room = TempDatabase.getRoom(roomId);
         players = new ArrayList<>();
+        if (room == null) {
+            System.out.println("adf");
+            room = TempDatabase.getRoom(roomId);
+        }
         players.addAll(room.getUsers());
         int idx = new Random().nextInt(players.size() - 1);
         waitingForUserId = players.get(idx).getId();

@@ -10,10 +10,11 @@ import com.example.javaproject.infra.User.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TempDatabase {
-    private static HashMap<String, User> registeredUsers = new HashMap<>();
-    private static HashMap<Integer, GameRoom> gameRooms = new HashMap<>();
+    private static ConcurrentHashMap<String, User> registeredUsers = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Integer, GameRoom> gameRooms = new ConcurrentHashMap<>();
 
     // Below functions simulated SQL databases' interfaces.
     // they should work similar to SQL database interfaces we will have in the future
@@ -32,7 +33,7 @@ public class TempDatabase {
 
     // Check if roomId is valid(valid roomId, also room state is IDLE, which means game has not started)
     public static boolean checkRoom(int roomId) {
-        if (gameRooms.containsKey(roomId) && gameRooms.get(roomId).getState() == GameRoom.GameState.IDLE) {
+        if (gameRooms.containsKey(roomId)) {
             return true;
         } else {
             return false;
