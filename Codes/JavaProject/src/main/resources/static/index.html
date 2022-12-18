@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>Welcome to Texas Holdem Game!</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
@@ -9,6 +9,8 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="/app.js"></script>
 </head>
+
+
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
@@ -18,17 +20,7 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
+                    <label for="name">User Name</label>
                     <input type="text" id="name" class="form-control" placeholder="Your name here...">
                 </div>
                 <button id="send" class="btn btn-default" type="submit">Send</button>
@@ -40,12 +32,19 @@
             <table id="conversation" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Greetings</th>
+                    <th>Guests in Room</th>
                 </tr>
                 </thead>
                 <tbody id="greetings">
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <button id="start" class="btn btn-default" type="submit" onClick="gameStart()">Start</button>
+            </form>
         </div>
     </div>
 </div>
