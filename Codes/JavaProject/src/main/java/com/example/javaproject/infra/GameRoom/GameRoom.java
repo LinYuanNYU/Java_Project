@@ -2,8 +2,10 @@ package com.example.javaproject.infra.GameRoom;
 
 import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.infra.User.User;
+import com.example.javaproject.messages.ActionMessage;
 import org.yaml.snakeyaml.events.Event;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,5 +40,11 @@ public class GameRoom {
     }
     public ArrayList<User> getUsers() {
         return users;
+    }
+    public void start() {
+
+    }
+    public void action(ActionMessage action) {
+
     }
 }
