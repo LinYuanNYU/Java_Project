@@ -1,10 +1,10 @@
 package com.example.javaproject.messages;
 
 public class GameStartRequest {
-    public int userId;
+    public String userId;
     public int roomId;
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -12,7 +12,7 @@ public class GameStartRequest {
         this.roomId = roomId;
     }
     public GameStartRequest() {}
-    public GameStartRequest(int userId, int roomId) {
+    public GameStartRequest(String userId, int roomId) {
         this.roomId = roomId;
         this.userId = userId;
     }

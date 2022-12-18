@@ -13,17 +13,21 @@
     <link rel="stylesheet" href="./game.css" type="text/css">
 
 </head>
-
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/main.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/game.js"></script>
 <body>
-<h2>Background Cover</h2>
     <div id="poker_table" class="poker-table" data-uid="">
     <div id="seat0" class="seat">
         <div class="holecards">
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player0-name-chips">
+            <div class="player-name" id="player0"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
@@ -33,8 +37,8 @@
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player1-name-chips">
+            <div class="player-name" id="player1"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
@@ -44,8 +48,8 @@
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player2-name-chips">
+            <div class="player-name" id="player2"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
@@ -55,8 +59,8 @@
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player3-name-chips">
+            <div class="player-name" id="player3"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
@@ -66,8 +70,8 @@
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player4-name-chips">
+            <div class="player-name" id="player4"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
@@ -77,22 +81,12 @@
             <div class="card holecard1"></div>
             <div class="card holecard2"></div>
         </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
+        <div class="name-chips" id="player5-name-chips">
+            <div class="player-name" id="player5"></div>
             <div class="chips"></div>
         </div>
         <div class="bet"></div>
     </div>
-    <div id="seat6" class="seat">
-        <div class="holecards">
-            <div class="card holecard1"></div>
-            <div class="card holecard2"></div>
-        </div>
-        <div class="name-chips">
-            <div class="player-name"></div>
-            <div class="chips"></div>
-        </div>
-        <div class="bet"></div>
         <div id="board">
             <div id="flop1" class="card boardcard"></div>
             <div id="flop2" class="card boardcard"></div>
@@ -108,12 +102,27 @@
             <div id="total-pot"></div>
         </div>
     </div>
-        <div id="button" class="seat6-button"></div>
-        <div id="history"></div>
-        <div id="action-options">
-            <div id="fold-button" class="action-button"></div>
-            <div id="call-button" class="action-button"></div>
-        </div>
+
+    <div id="action-options">
+    <div id="fold-button" class="action-button">Fold</div>
+    <div id="call-button" class="action-button">Call</div>
+    </div>
+
+    <div id="quick-raises">
+        <tr>Quick Raises</tr>
+    <div id="raise-selector">
+        <select id="raise-options">
+            <option value="0">20</option>
+            <option value="1">40</option>
+            <option value="2">60</option>
+            <option value="3">80</option>
+            <option value="4">100</option>
+        </select>
+    </div>
+
+    </div>
+<div id="modal-box"></div>
+<div id="start-button" class="action-button">Start</div>
 </div>
 
 </body>

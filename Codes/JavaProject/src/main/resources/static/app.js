@@ -1,4 +1,4 @@
-var stompClient = null;
+var loginClient = null;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -11,38 +11,43 @@ function setConnected(connected) {
     }
     $("#greetings").html("");
 }
-function connect() {
+function loginClientConnect() {
     var socket = new SockJS('/java_project');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    loginClient = Stomp.over(socket);
+    loginClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/game_room', func);
+        loginClient.subscribe('/topic/game_room', loginCallback);
     });
 }
 
 function sendName() {
-    stompClient.send("/app/room/join", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
+    loginClient.send("/app/room/join", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
 }
-function func(greeting) {
-    receivedObject = JSON.parse(greeting.body);
-    console.log(receivedObject['type']);
-    showGreeting("Hello user " + JSON.stringify(receivedObject['ownerId']) + ", ready in owner: " + JSON.stringify(receivedObject['ownerId']) + "'s room " + JSON.stringify(receivedObject['roomId']));
+function loginCallback(msg) {
+    obj = JSON.parse(msg.body);
+    if (obj.hasOwnProperty("gameStartFlag") && obj['gameStartFlag'] === true) {
+        sessionStorage.setItem('userId', $("#name").val())
+        window.location.href = "./game.html";
+    }
 }
+
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 function start() {
-    stompClient.send("/app/room/start", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
+    loginClient.send("/app/room/start", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
 }
 function gameStart() {
-    window.location.replace("./game.html");
+    loginClient.send("/app/room/start", {}, JSON.stringify({'userId': $("#name").val(), 'roomId': 1}));
+    sessionStorage.setItem('userId', $("#name").val())
+    window.location.href = "./game.html";
 }
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    connect();
+    loginClientConnect();
     $( "#send" ).click(function() { sendName(); });
 });
 

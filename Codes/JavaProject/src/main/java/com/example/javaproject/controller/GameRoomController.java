@@ -19,7 +19,7 @@ public class GameRoomController {
 
     @PostMapping("/create")
     public int createGameRoom(@RequestBody User user) {
-        logger.info(String.format("User: {%d} creates a game room", user.getId()));
+        logger.info(String.format("User: {%s} creates a game room", user.getId()));
         GameRoom room = new GameRoom(user.getId());
         TempDatabase.addRoom(room);
         return room.getRoomId();
@@ -28,7 +28,7 @@ public class GameRoomController {
     @MessageMapping("/join")
     @SendTo("/topic/game_room")
     public RoomStateMessage joinGameRoom(@RequestBody JoinRoomRequest request) {
-        logger.info(String.format("User: {%d} want to join room: {%d}", request.userId, request.roomId));
+        logger.info(String.format("User: {%s} want to join room: {%d}", request.userId, request.roomId));
         /*if (!TempDatabase.checkUser(request.userId)) {
             logger.error(String.format("Invalid userId: %d", request.userId));
             return false;
@@ -45,14 +45,14 @@ public class GameRoomController {
         return new RoomStateMessage(request.roomId);
     }
     @MessageMapping("/start")
-    @SendTo("/topic/game_room")
+    @SendTo({"/topic/in_game", "/topic/game_room"})
     public GameStartMessage gameStart(@RequestBody GameStartRequest request) {
         GameRoom room = TempDatabase.getRoom(request.roomId);
         room.start();
         return new GameStartMessage(request.roomId);
     }
     @MessageMapping("/action")
-    @SendTo("/topic/game_room")
+    @SendTo("/topic/in_game")
     public ActionMessage gameAction(@RequestBody ActionMessage action) {
         GameRoom room = TempDatabase.getRoom(action.getRoomId());
         room.action(action);

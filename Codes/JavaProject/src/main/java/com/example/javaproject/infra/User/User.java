@@ -5,17 +5,17 @@ import com.example.javaproject.infra.Poker.Card;
 import java.util.List;
 
 public class User {
-    private int userId;
+    private String userId;
     private int money;
     private List<Card> cards;
-    public User(int userId) {
+    public User(String userId) {
         this.userId = userId;
     }
     public User() {}
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
-    public int getId() {
+    public String getId() {
         return userId;
     }
     public void changeMoney(int amount) {

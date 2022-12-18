@@ -7,7 +7,7 @@ import com.example.javaproject.infra.User.User;
 import java.util.ArrayList;
 
 public class RoomStateMessage {
-    private int ownerId;
+    private String ownerId;
     private int roomId;
     private ArrayList<User> members;
     public RoomStateMessage(int roomId) {
@@ -22,10 +22,10 @@ public class RoomStateMessage {
     public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
-    public int getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 

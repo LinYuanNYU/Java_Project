@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TempDatabase {
-    private static HashMap<Integer, User> registeredUsers = new HashMap<>();
+    private static HashMap<String, User> registeredUsers = new HashMap<>();
     private static HashMap<Integer, GameRoom> gameRooms = new HashMap<>();
 
     // Below functions simulated SQL databases' interfaces.
     // they should work similar to SQL database interfaces we will have in the future
 
     // register user to database
-    public static void registerUser(int userId) {
+    public static void registerUser(String userId) {
         registeredUsers.put(userId, new User(userId));
     }
     // Check if user is a registered user
@@ -44,7 +44,12 @@ public class TempDatabase {
         }
         return null;
     }
-    public static boolean userJoinRoom(int userId, int roomId) {
-        return gameRooms.get(roomId).addUser(userId);
+    public static boolean userJoinRoom(String userId, int roomId) {
+        GameRoom room = gameRooms.get(roomId);
+        if (!room.getUserIDs().contains(userId)) {
+            return gameRooms.get(roomId).addUser(userId);
+        } else {
+            return false;
+        }
     }
 }

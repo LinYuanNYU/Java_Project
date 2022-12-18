@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameRoom {
     private ArrayList<User> users;
-    private int ownerId;
+    private String ownerId;
     private CardSet cards;
     private static AtomicInteger id = new AtomicInteger(0);
     private int roomId;
     public static enum GameState {IDLE, PLAYING};
     private GameState state;
-    public GameRoom(int ownerId) {
+    public GameRoom(String ownerId) {
         this.ownerId = ownerId;
         this.roomId = id.incrementAndGet();
         users = new ArrayList<>();
@@ -28,11 +28,11 @@ public class GameRoom {
     public int getRoomId() {
         return roomId;
     }
-    public int getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public boolean addUser(int userId) {
+    public boolean addUser(String userId) {
         return this.users.add(new User(userId));
     }
     public GameState getState() {
@@ -41,10 +41,18 @@ public class GameRoom {
     public ArrayList<User> getUsers() {
         return users;
     }
+    public ArrayList<String> getUserIDs() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (User user : users) {
+            ids.add(user.getId());
+        }
+        return ids;
+    }
     public void start() {
 
     }
     public void action(ActionMessage action) {
+
 
     }
 }

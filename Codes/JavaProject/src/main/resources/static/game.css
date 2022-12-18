@@ -31,7 +31,7 @@ html {
     border-radius: 4px;
     color: white;
     font-size: 14px;
-    height: 33px;
+    height: 50px;
     position: absolute;
     text-align: center;
     top: 65px;
@@ -40,6 +40,7 @@ html {
 
 .player-name {
     width: 100%;
+    line-height: 100%;
 }
 
 .card {
@@ -86,12 +87,12 @@ html {
 }
 
 #seat0 {
-    left: 0px;
-    top:  330px;
+    left: 280px;
+    top:  400px;
 }
 .seat0-button {
     left: 235px;
-    top:  410px;
+    top:  420px;
 }
 #seat0 .bet {
     top: -20px;
@@ -111,19 +112,19 @@ html {
 
 #seat2 {
     left: 0px;
-    top:  0px;
+    top:  20px;
 }
 .seat2-button {
     left: 235px;
     top:   80px;
 }
 #seat2 .bet {
-    top: 100px;
+    top: 120px;
 }
 
 #seat3 {
     left: 200px;
-    top:    0px;
+    top:    20px;
 }
 
 .seat3-button {
@@ -136,7 +137,7 @@ html {
 
 #seat4 {
     left: 400px;
-    top:    0px;
+    top:    20px;
 }
 
 .seat4-button {
@@ -149,7 +150,7 @@ html {
 
 #seat5 {
     left: 600px;
-    top:    0px;
+    top:    20px;
 }
 
 .seat5-button {
@@ -158,54 +159,6 @@ html {
 }
 #seat5 .bet {
     top: 100px;
-}
-
-#seat6 {
-    left: 650px;
-    top:  155px;
-}
-.seat6-button {
-    left: 730px;
-    top:  235px;
-}
-#seat6 .bet {
-    top: 100px;
-}
-
-#seat7 {
-    left: 600px;
-    top:  330px;
-}
-.seat7-button {
-    left: 680px;
-    top:  410px;
-}
-#seat7 .bet {
-    top: -20px;
-}
-
-#seat8 {
-    left: 400px;
-    top:  330px;
-}
-.seat8-button {
-    left: 480px;
-    top:  410px;
-}
-#seat8 .bet {
-    top: -20px;
-}
-
-#seat9 {
-    left: 200px;
-    top:  330px;
-}
-.seat9-button {
-    left: 280px;
-    top:  410px;
-}
-#seat9 .bet {
-    top: -20px;
 }
 
 
@@ -234,33 +187,42 @@ html {
 }
 
 #flop1 {
+    left: -50px;
+    top: 25px;
 }
 
 #flop2 {
-    left: 52px;
+    left: 13px;
+    top: 25px;
 }
 
 #flop3 {
-    left: 104px;
+    left: 76px;
+    top: 25px;
 }
 
 #turn {
-    left: 156px;
+    left: 142px;
+    top: 25px;
 }
 
 #river {
-    left: 208px;
+    left: 203px;
+    top: 25px;
 }
 
 #burn1 {
-    left: 280px;
+    left: 300px;
+    top: 25px;
     rotate: -18deg;
 }
 #burn2 {
-    left: 290px;
+    left: 310px;
+    top: 25px;
 }
 #burn3 {
-    left: 300px;
+    left: 320px;
+    top: 25px;
     rotate: 15deg;
 }
 
@@ -292,30 +254,6 @@ html {
     top: 400px;
     width: 200px;
 }
-
-.setup-button {
-    background-color: silver;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    height: 30px;
-    left: 0px;
-    padding: 10px 5px 0px 5px;
-    position: absolute;
-    text-align: center;
-    top: 0px;
-    width: 160px;
-}
-.setup-button:hover {
-    box-shadow: 3px 3px 4px #000000;
-}
-
-#speed-button {
-    cursor: default;
-    top: 50px;
-}
-
 select {
     background-color: silver;
     background: silver;
@@ -384,13 +322,20 @@ select {
 .response-warning {
     background-color: #FF0000;
 }
-
+#fold-button {
+    left: 250px;
+    width: 60px;
+    top: 80px;
+    text-align: center;
+}
+#call-button {
+    left: 360px;
+    top: 80px;
+    width: 60px;
+    text-align: center;
+}
 #fold-button:hover {
     box-shadow: 3px 3px 4px #000000;
-}
-
-#call-button {
-    left: 80px;
 }
 
 #call-button:hover {
@@ -402,10 +347,10 @@ select {
     border-radius: 4px;
     font-size: 18px;
     height: 75px;
-    left: 25px;
+    left: 280px;
     position: absolute;
     text-align: center;
-    top: 515px;
+    top: 600px;
     width: 350px;
 }
 #quick-raises a:link {
@@ -417,7 +362,16 @@ select {
     text-shadow: 3px 3px 4px #000000;
 }
 
-
+#raise-options {
+    text-align: center;
+    width: 60px;
+    height: 30px;
+    top: 40px;
+    left: 140px;
+}
+#raise-options .lt {
+    text-align: center;
+}
 #modal-box {
     background-color: silver;
     display: none;
@@ -439,5 +393,20 @@ select {
 #modal-box a:hover {
     color: white;
     text-shadow: 3px 3px 4px #000000;
+}
+
+#start-button:hover {
+    border: 5px solid green;
+}
+#start-button {
+    width: 300px;
+    height: 100px;
+    top: 600px;
+    left: 900px;
+    text-align: center;
+    line-height: 100px;
+}
+td {
+    text-align: center;
 }
 
