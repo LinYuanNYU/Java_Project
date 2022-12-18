@@ -10,6 +10,7 @@ import com.example.javaproject.AI.gameModel.*;
 
 import java.util.List;
 
+
 public class PlayerControllerPhaseINormal extends PlayerControl {
     private final HandPowerRanker handPowerRanker;
 
