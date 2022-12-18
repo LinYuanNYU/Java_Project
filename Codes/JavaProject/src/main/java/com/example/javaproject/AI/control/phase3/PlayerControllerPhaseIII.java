@@ -16,14 +16,11 @@ import com.example.javaproject.AI.control.phase2.*;
 import java.util.List;
 public abstract class PlayerControllerPhaseIII extends PlayerControl {
     private final PlayerControllerPhaseIIBluffConservative playerControllerPhaseIIBluffConservative;
-    private final HandStrengthEvaluator handStrengthEvaluator;
-    private final OpponentModeler opponentModeler;
 
-    protected PlayerControllerPhaseIII(PlayerControllerPhaseIIBluffConservative playerControllerPhaseIIBluffConservative, HandStrengthEvaluator
-            handStrengthEvaluator, OpponentModeler opponentModeler) {
-        this.playerControllerPhaseIIBluffConservative = playerControllerPhaseIIBluffConservative;
-        this.handStrengthEvaluator = handStrengthEvaluator;
-        this.opponentModeler = opponentModeler;
+
+    protected PlayerControllerPhaseIII() {
+        this.playerControllerPhaseIIBluffConservative = new PlayerControllerPhaseIIBluffConservative();
+
     }
 
 
@@ -34,7 +31,7 @@ public abstract class PlayerControllerPhaseIII extends PlayerControl {
 
     public BettingDecision decideAfterFlop(Player player, GameHand gameHand, List<Card> cards) {
         BettingRound currentBettingRound = gameHand.getCurrentBettingRound();
-        double handStrength = handStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
+        double handStrength = HandStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
                 gameHand.getPlayersCount());
         int opponentsModeledCount = 0;
         //int oppponentsWithBetterEstimatedHandStrength = 0;
@@ -47,7 +44,7 @@ public abstract class PlayerControllerPhaseIII extends PlayerControl {
                 ContextAction contextAction = currentBettingRound.getContextActionForPlayer(opponent);
 
                 if (contextAction != null) {
-                    ModelResult modelResult = opponentModeler.getEstimatedHandStrength(contextAction);
+                    ModelResult modelResult = OpponentModeler.getEstimatedHandStrength(contextAction);
 
                     // If we don't have enough occurence or if the variance is big, the information is not valuable
                     if (modelResult.getNumberOfOccurences() > 3 && modelResult.getHandStrengthDeviation() <= 0.15) {

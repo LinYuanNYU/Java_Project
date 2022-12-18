@@ -17,21 +17,15 @@ import java.text.DecimalFormat;
 public class OpponentsModelPersistence {
     private static final String TABLE_OPPONENTS_MODEL = "Opponents";
 
-    private final PersistenceManager persistenceManager;
 
-
-
-    public OpponentsModelPersistence(final PersistenceManager persistenceManager) {
-        this.persistenceManager = persistenceManager;
-
-
+    public OpponentsModelPersistence() {
         init();
     }
 
-    public void persist(ContextAggregate contextAggregate) {
+    public static void persist(ContextAggregate contextAggregate) {
         try {
             String insert = "INSERT INTO " + TABLE_OPPONENTS_MODEL + " VALUES(?,?,?,?,?,?,?,?,?)";
-            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(insert);
+            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(insert);
             ContextAction contextAction = contextAggregate.getContextAction();
             statement.setInt(1, contextAction.getPlayer().getNumber());
             statement.setString(2, contextAction.getBettingDecision().toString());
@@ -50,12 +44,12 @@ public class OpponentsModelPersistence {
         }
     }
 
-    public ModelResult retrieve(ContextAction contextAction) {
+    public static ModelResult retrieve(ContextAction contextAction) {
         String query = "SELECT * FROM " + TABLE_OPPONENTS_MODEL + " WHERE player = ? AND decision = ? AND " +
                 "roundname = ? AND raises = ? AND playercount = ? AND potodds = ?";
 
         try {
-            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(query);
+            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(query);
             statement.setInt(1, contextAction.getPlayer().getNumber());
             statement.setString(2, contextAction.getBettingDecision().toString());
             statement.setString(3, contextAction.getBettingRoundName().toString());
@@ -75,11 +69,11 @@ public class OpponentsModelPersistence {
         }
     }
 
-    public void print() {
+    public static void print() {
         String query = "SELECT * FROM " + TABLE_OPPONENTS_MODEL + " ORDER BY player, decision, roundname, " +
                 "raises, playercount, potodds";
         try {
-            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(query);
+            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(query);
             ResultSet result = statement.executeQuery();
 
             DecimalFormat f = new DecimalFormat("##.0000");
@@ -95,10 +89,10 @@ public class OpponentsModelPersistence {
         }
     }
 
-    public void clear() {
+    public static void clear() {
         String query = "TRUNCATE TABLE " + TABLE_OPPONENTS_MODEL;
         try {
-            Statement statement = persistenceManager.getConnection().createStatement();
+            Statement statement = PersistenceManager.getConnection().createStatement();
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,9 +101,9 @@ public class OpponentsModelPersistence {
 
     }
 
-    private void init() {
+    private static void init() {
         try {
-            Statement statement = persistenceManager.getConnection().createStatement();
+            Statement statement = PersistenceManager.getConnection().createStatement();
             //statement.execute("DROP TABLE "+TABLE_OPPONENTS_MODEL);
             String query = "CREATE TABLE IF NOT EXISTS " + TABLE_OPPONENTS_MODEL + "(player integer," +
                     "decision VARCHAR_IGNORECASE,roundname VARCHAR_IGNORECASE, raises VARCHAR_IGNORECASE, " +

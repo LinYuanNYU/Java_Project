@@ -20,19 +20,13 @@ import java.util.List;
 import java.util.Random;
 
 public class PlayerControllerPhaseIIBluffAggressive extends PlayerControllerPhaseII {
-    private final EquivalenceClassControl equivalenceClassController;
-    private final PreFlopPersistence preFlopPersistence;
 
 
-    public PlayerControllerPhaseIIBluffAggressive(final EquivalenceClassControl equivalenceClassController,
-                                        final PreFlopPersistence preFlopPersistence,
-                                        final HandStrengthEvaluator handStrengthEvaluator,
-                                        final HandPotentialEvaluator handPotentialEvaluator,
-                                        final HandPotentialEvaluator1 handPotentialEvaluator1) {
-        super(handStrengthEvaluator,handPotentialEvaluator,handPotentialEvaluator1);
 
-        this.equivalenceClassController = equivalenceClassController;
-        this.preFlopPersistence = preFlopPersistence;
+
+    public PlayerControllerPhaseIIBluffAggressive() {
+        super();
+
     }
 
     @Override
@@ -44,8 +38,8 @@ public class PlayerControllerPhaseIIBluffAggressive extends PlayerControllerPhas
     public BettingDecision decidePreFlop(Player player, GameHand gameHand, List<Card> cards) {
         Card card1 = cards.get(0);
         Card card2 = cards.get(1);
-        EquivalenceClass equivalenceClass = this.equivalenceClassController.cards2Equivalence(card1, card2);
-        double percentageOfWins = preFlopPersistence.retrieve(gameHand.getPlayers().size(), equivalenceClass);
+        EquivalenceClass equivalenceClass = EquivalenceClassControl.cards2Equivalence(card1, card2);
+        double percentageOfWins = PreFlopPersistence.retrieve(gameHand.getPlayers().size(), equivalenceClass);
         //System.out.println(percentageOfWins);
         //System.out.println(gameHand.getCurrentBettingRound().getBetForPlayer(player));
         int bigB_position = 0;

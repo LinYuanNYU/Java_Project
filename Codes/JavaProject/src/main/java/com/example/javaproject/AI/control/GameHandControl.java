@@ -18,25 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.javaproject.AI.Persistent.*;
 import com.example.javaproject.AI.gameModel.opponentModel.*;
+import com.example.javaproject.infra.Poker.CardSet;
+
 
 public class GameHandControl {
 
-    private final HandPowerRanker handPowerRanker;
     private final GameProperties gameProperties;
-
-    private final HandStrengthEvaluator handStrengthEvaluator;
-    private final OpponentModeler opponentModeler;
 
 
     public GameHandControl(
-                              final HandPowerRanker handPowerRanker,
-                              final GameProperties gameProperties,
-                              final HandStrengthEvaluator handStrengthEvaluator,
-                              final OpponentModeler opponentModeler) {
-        this.handPowerRanker = handPowerRanker;
+                              final GameProperties gameProperties) {
         this.gameProperties = gameProperties;
-        this.handStrengthEvaluator = handStrengthEvaluator;
-        this.opponentModeler = opponentModeler;
     }
 
     public void play(Game game) {
@@ -68,21 +60,23 @@ public class GameHandControl {
             }
         }
 
-
         GameHand gameHand = createGameHand(game);
 
 
         Boolean haveWinner = false;
+
         while (!gameHand.getBettingRoundName().equals(
                 BettingRoundName.POST_RIVER)
                 && !haveWinner) {
             haveWinner = playRound(gameHand);
         }
+        CardSet.reInitialize();
 
         if (!haveWinner) {
             showDown(gameHand);
         }
     }
+
 
     private GameHand createGameHand(Game game) {
         GameHand gameHand = new GameHand(game.getPlayers());
@@ -134,6 +128,7 @@ public class GameHandControl {
 
             applyDecision(gameHand, player, bettingDecision);
             toPlay--;
+
         }
 
         // Check if we have a winner
@@ -176,7 +171,7 @@ public class GameHandControl {
     }
 
     private void applyDecision(GameHand gameHand, Player player, BettingDecision bettingDecision) {
-        double handStrength = handStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
+        double handStrength = HandStrengthEvaluator.evaluate(player.getHoleCards(), gameHand.getSharedCards(),
                 gameHand.getPlayersCount());
         gameHand.applyDecision(player, bettingDecision, gameProperties, handStrength);
 
@@ -194,7 +189,7 @@ public class GameHandControl {
         for (Player player : activePlayers) {
             List<Card> mergeCards = new ArrayList<Card>(player.getHoleCards());
             mergeCards.addAll(sharedCards);
-            HandPower handPower = handPowerRanker.rank(mergeCards);
+            HandPower handPower = HandPowerRanker.rank(mergeCards);
 
             System.out.println(player + ": " + handPower);
 
@@ -230,7 +225,7 @@ public class GameHandControl {
         }
 
         // Opponent modeling
-        opponentModeler.save(gameHand);
+        OpponentModeler.save(gameHand);
 
 
     }

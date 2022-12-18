@@ -46,14 +46,17 @@ public class GameHand {
                 player.setHoleCards(card1, card2);
             }
         } else if (getBettingRoundName().equals(BettingRoundName.POST_FLOP)) {
+            CardSet.popFlopCards();
             ArrayList<Card> flopCards = CardSet.getFlopCards();
             sharedCards.add(flopCards.get(0));
             sharedCards.add(flopCards.get(1));
             sharedCards.add(flopCards.get(2));
         }  else if (getBettingRoundName().equals(BettingRoundName.POST_TURN)) {
+            CardSet.popTurnCards();
         Card flopCard = CardSet.getTurnCard();
         sharedCards.add(flopCard);
         } else {
+            CardSet.popRiverCards();
             Card riverCard = CardSet.getRiverCard();
             sharedCards.add(riverCard);
         }

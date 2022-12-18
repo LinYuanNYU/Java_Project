@@ -6,18 +6,16 @@ import com.example.javaproject.AI.control.HandPowerRanker;
 import com.example.javaproject.infra.Poker.Card;
 import com.example.javaproject.AI.control.PlayerControl;
 import com.example.javaproject.AI.Player;
-import com.example.javaproject.AI.control.HandPowerRanker;
-import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.AI.gameModel.*;
 
 import java.util.List;
 
 public class PlayerControllerPhaseIBluff extends PlayerControl {
-    private final HandPowerRanker handPowerRanker;
 
 
-    public PlayerControllerPhaseIBluff(final HandPowerRanker handPowerRanker) {
-        this.handPowerRanker = handPowerRanker;
+
+    public PlayerControllerPhaseIBluff() {
+
     }
 
     @Override
@@ -47,7 +45,7 @@ public class PlayerControllerPhaseIBluff extends PlayerControl {
     @Override
     public BettingDecision decideAfterFlop(Player player, GameHand gameHand,
                                            List<Card> cards) {
-        HandPower handPower = handPowerRanker.rank(cards);
+        HandPower handPower = HandPowerRanker.rank(cards);
 
         HandPowerType handPowerType = handPower.getHandPowerType();
         if (handPowerType.equals(HandPowerType.HIGH_CARD)) {

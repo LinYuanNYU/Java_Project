@@ -17,13 +17,12 @@ import java.util.List;
 
 public class HandPotentialEvaluator {
 
-    private final HandPowerRanker handPowerRanker;
 
-    public HandPotentialEvaluator(final HandPowerRanker handPowerRanker) {
-        this.handPowerRanker = handPowerRanker;
+
+    public HandPotentialEvaluator() {
     }
 
-    public double evaluate(List<Card> playerHoleCards, List<Card> sharedCards, Integer numberOfPlayers, final GameHand gameHand) {
+    public static double evaluate(List<Card> playerHoleCards, List<Card> sharedCards, Integer numberOfPlayers, final GameHand gameHand) {
         if(sharedCards == null || sharedCards.isEmpty() || gameHand.getBettingRoundName().equals(BettingRoundName.PRE_FLOP)
                 || gameHand.getBettingRoundName().equals(BettingRoundName.POST_RIVER) || gameHand.getBettingRoundName().equals(BettingRoundName.POST_TURN)){
             return 0d;
@@ -44,13 +43,13 @@ public class HandPotentialEvaluator {
         List<Card> playerCards = new ArrayList<Card>();
         playerCards.addAll(playerHoleCards);
         playerCards.addAll(sharedCards);
-        HandPower playerRank = handPowerRanker.rank(playerCards);
+        HandPower playerRank = HandPowerRanker.rank(playerCards);
 
         for (List<Card> couple : couplesOfCards) {
             List<Card> opponentCards = new ArrayList<Card>();
             opponentCards.addAll(couple);
             opponentCards.addAll(sharedCards);
-            HandPower opponentRank = handPowerRanker.rank(opponentCards);
+            HandPower opponentRank = HandPowerRanker.rank(opponentCards);
             int index = 0;
 
             int result = playerRank.compareTo(opponentRank);
@@ -71,8 +70,8 @@ public class HandPotentialEvaluator {
                     List<Card> opponentCards7 = new ArrayList<Card>();
                     opponentCards7.addAll(opponentCards);
                     opponentCards7.addAll(add);
-                    HandPower playerRank7 = handPowerRanker.rank(playerCards7);
-                    HandPower opponentRank7 = handPowerRanker.rank(opponentCards7);
+                    HandPower playerRank7 = HandPowerRanker.rank(playerCards7);
+                    HandPower opponentRank7 = HandPowerRanker.rank(opponentCards7);
                     result = playerRank7.compareTo(opponentRank7);
                     if (result > 0) {
                         HP[index][0]++;

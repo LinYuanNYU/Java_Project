@@ -12,10 +12,9 @@ import java.util.List;
 
 
 public class PlayerControllerPhaseINormal extends PlayerControl {
-    private final HandPowerRanker handPowerRanker;
 
-    public PlayerControllerPhaseINormal(final HandPowerRanker handPowerRanker) {
-        this.handPowerRanker = handPowerRanker;
+    public PlayerControllerPhaseINormal() {
+
     }
 
     @Override
@@ -41,7 +40,7 @@ public class PlayerControllerPhaseINormal extends PlayerControl {
 
     @Override
     public BettingDecision decideAfterFlop(Player player, GameHand gameHand, List<Card> cards) {
-        HandPower handPower = handPowerRanker.rank(cards);
+        HandPower handPower = HandPowerRanker.rank(cards);
 
         HandPowerType handPowerType = handPower.getHandPowerType();
         if (handPowerType.equals(HandPowerType.HIGH_CARD) && !gameHand.getPlayers().getFirst().equals(player)) {

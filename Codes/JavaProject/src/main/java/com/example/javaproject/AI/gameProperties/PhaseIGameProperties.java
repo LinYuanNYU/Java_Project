@@ -9,12 +9,12 @@ import com.example.javaproject.AI.Player;
 
 public class PhaseIGameProperties extends GameProperties {
 
-    public PhaseIGameProperties(final PlayerControllerPhaseINormal playerControllerPhaseINormal, final PlayerControllerPhaseIBluff playerControllerPhaseIBluff) {
+    public PhaseIGameProperties() {
         super(1000, 1000, 20, 10);
 
-        addPlayer(new Player(1, getInitialMoney(), playerControllerPhaseIBluff));
-        addPlayer(new Player(2, getInitialMoney(), playerControllerPhaseIBluff));
-        addPlayer(new Player(3, getInitialMoney(), playerControllerPhaseINormal));
-        addPlayer(new Player(4, getInitialMoney(), playerControllerPhaseINormal));
+        addPlayer(new Player(1, getInitialMoney(), new PlayerControllerPhaseIBluff()));
+        addPlayer(new Player(2, getInitialMoney(), new PlayerControllerPhaseIBluff()));
+        addPlayer(new Player(3, getInitialMoney(), new PlayerControllerPhaseINormal()));
+        addPlayer(new Player(4, getInitialMoney(), new PlayerControllerPhaseINormal()));
     }
 }
