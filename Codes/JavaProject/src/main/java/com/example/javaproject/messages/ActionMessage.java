@@ -3,13 +3,13 @@ package com.example.javaproject.messages;
 public class ActionMessage {
     private String userId;
     private int roomId;
-    private int raiseTo;
+    private int raiseAmount;
     private String type = "ActionMessage";
     String action; // "FOLD", "BET", "RAISE"
-    public ActionMessage(String userId, String action, int roomId, int raiseTo) {
+    public ActionMessage(String userId, String action, int roomId, int raiseAmount) {
         this.userId = userId;
         this.action = action;
-        this.raiseTo = raiseTo;
+        this.raiseAmount = raiseAmount;
         this.roomId = roomId;
     }
 
@@ -36,12 +36,12 @@ public class ActionMessage {
         this.roomId = roomId;
     }
 
-    public int getRaiseTo() {
-        return raiseTo;
+    public int getRaiseAmount() {
+        return raiseAmount;
     }
 
-    public void setRaiseTo(int raiseTo) {
-        this.raiseTo = raiseTo;
+    public void setRaiseAmount(int raiseAmount) {
+        this.raiseAmount = raiseAmount;
     }
 
     public void setUserId(String userId) {

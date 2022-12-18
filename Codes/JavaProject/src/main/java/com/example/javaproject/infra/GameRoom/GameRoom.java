@@ -1,5 +1,6 @@
 package com.example.javaproject.infra.GameRoom;
 
+import com.example.javaproject.infra.Poker.Card;
 import com.example.javaproject.infra.Poker.CardSet;
 import com.example.javaproject.infra.User.User;
 import com.example.javaproject.messages.ActionMessage;
@@ -7,11 +8,13 @@ import org.yaml.snakeyaml.events.Event;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameRoom {
     private ArrayList<User> users;
     private String ownerId;
+    private List<Card> publicCards;
     private CardSet cards;
     private static AtomicInteger id = new AtomicInteger(0);
     private int roomId;
@@ -49,10 +52,16 @@ public class GameRoom {
         return ids;
     }
     public void start() {
+        this.state = GameState.PLAYING;
 
     }
     public void action(ActionMessage action) {
+        if (action.getAction() == "BET") {
 
+        } else if (action.getAction() == "RAISE") {
 
+        } else {
+
+        }
     }
 }

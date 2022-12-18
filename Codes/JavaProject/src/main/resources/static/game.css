@@ -354,7 +354,6 @@ select {
 }
 
 #quick-raises {
-    background-color: silver;
     border-radius: 4px;
     font-size: 18px;
     height: 75px;
@@ -363,6 +362,19 @@ select {
     text-align: center;
     top: 600px;
     width: 350px;
+}
+#raise-selector {
+    position: absolute;
+    top: -10px;
+    left: -50px;
+}
+#raise-options {
+    width: 70px;
+}
+#raise-button {
+    position: absolute;
+    top: 30px;
+    left: 220px;
 }
 #quick-raises a:link {
     color: white;
@@ -412,8 +424,8 @@ select {
 #start-button {
     width: 300px;
     height: 100px;
-    top: 600px;
-    left: 900px;
+    top: 0px;
+    left: 700px;
     text-align: center;
     line-height: 100px;
 }

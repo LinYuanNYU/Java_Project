@@ -6,6 +6,7 @@ var initialPlayerId = null;
 var curPlayerId = 0;
 var numOfPlayer = 0;
 const Action = {FOLD: "FOLD", BET: "BET", RAISE: "RAISE"}
+
 function gameClientConnect() {
     var socket = new SockJS('/java_project');
     gameClient = Stomp.over(socket);
@@ -53,12 +54,11 @@ function handleGameStartMessage(obj) {
     document.getElementById("board-bet").innerHTML = "Cur Bet: " + curValue;
 }
 function handleActionMessage(obj) {
-    updateClient(curPlayerId, obj['action'], obj['raiseTo'])
+    updateClient(curPlayerId, obj['action'], obj['raiseAmount'])
     $("#player" + curPlayerId + "-name-chips").css("border", "0px solid yellow");
     curPlayerId++;
     curPlayerId = curPlayerId % numOfPlayer;
     $("#player" + curPlayerId + "-name-chips").css("border", "5px solid yellow");
-
 }
 function gameCallBack(msg) {
     obj = JSON.parse(msg.body);
@@ -105,8 +105,20 @@ function call() {
         gameClient.send("/app/room/action", {}, send_str);
     }
 }
+function raise() {
+    if (curPlayerId === 0) {
+        let selector = document.getElementById("raise-options")
+        let amount = selector.options[selector.selectedIndex].text
+        let send_str = JSON.stringify({'userId': sessionStorage.getItem('userId'),
+            'roomId': 1,
+            'action': Action.RAISE,
+            'raiseAmount': amount})
+        console.log(send_str);
+        gameClient.send("/app/room/action", {}, send_str);
+    }
+}
 function startGame() {
-    if (gameFlag == false) {
+    if (gameFlag === false) {
         gameClient.send("/app/room/start", {},
             JSON.stringify({'userId': sessionStorage.getItem('userId'), 'roomId': 1}));
         gameFlag = true;
@@ -117,4 +129,5 @@ $(function () {
     $( "#start-button" ).click(function() { startGame(); });
     $( "#fold-button" ).click(function() { fold(); });
     $( "#call-button" ).click(function() { call(); });
+    $( "#raise-button" ).click(function() { raise(); });
 });
