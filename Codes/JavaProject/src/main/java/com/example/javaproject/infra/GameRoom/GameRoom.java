@@ -21,6 +21,7 @@ public class GameRoom {
     private int roomId;
     public static enum GameState {IDLE, PLAYING};
     private GameState state;
+    private boolean assigned = false;
     public GameRoom(String ownerId) {
         this.ownerId = ownerId;
         this.roomId = id.incrementAndGet();
@@ -85,7 +86,10 @@ public class GameRoom {
     }
     public void start() {
         this.state = GameState.PLAYING;
-        assignCards();
+        if (!this.assigned) {
+            assignCards();
+            this.assigned = true;
+        }
     }
     public void action(ActionMessage action) {
         if (action.getAction() == "BET") {

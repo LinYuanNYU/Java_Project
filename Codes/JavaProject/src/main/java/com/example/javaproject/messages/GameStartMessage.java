@@ -19,10 +19,6 @@ public class GameStartMessage {
     public GameStartMessage(int roomId) {
         GameRoom room = TempDatabase.getRoom(roomId);
         players = new ArrayList<>();
-        if (room == null) {
-            System.out.println("adf");
-            room = TempDatabase.getRoom(roomId);
-        }
         players.addAll(room.getUsers());
         int idx = new Random().nextInt(players.size() - 1);
         waitingForUserId = players.get(idx).getId();

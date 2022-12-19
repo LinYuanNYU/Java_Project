@@ -335,18 +335,38 @@ select {
 }
 #fold-button {
     left: 250px;
-    width: 60px;
+    width: 80px;
     top: 80px;
     text-align: center;
+    line-height: 100%;
 }
 #call-button {
     left: 360px;
     top: 80px;
-    width: 60px;
+    width: 100px;
     text-align: center;
+    line-height: 100%;
 }
 #fold-button:hover {
     box-shadow: 3px 3px 4px #000000;
+}
+#my-log-label {
+    position: absolute;
+    top: -550px;
+    left: 750px;
+    width: 200px;
+}
+#my-log {
+    position: absolute;
+    width: 500px;
+    height: 400px;
+    top: -500px;
+    left: 650px;
+    border: 2px solid green;
+    font-size: 12px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-x: auto;
 }
 
 #call-button:hover {

@@ -11,15 +11,26 @@ import java.util.HashMap;
 public class CardsResponseMessage {
     private ArrayList<Card> publicCards;
     private HashMap<String, ArrayList<Card>> handCards;
+    private String type = "CardsResponseMessage";
     public CardsResponseMessage(int roomId) {
         GameRoom room = TempDatabase.getRoom(roomId);
         publicCards = new ArrayList<>();
         publicCards.addAll(room.getPublicCards());
+        handCards = new HashMap<>();
         ArrayList<User> users = room.getUsers();
         for (int i = 0; i < users.size(); i++) {
             handCards.put(users.get(i).getId(), new ArrayList<>(users.get(i).getCards()));
         }
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public ArrayList<Card> getPublicCards() {
         return publicCards;
     }
