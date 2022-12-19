@@ -5,11 +5,14 @@ var totalValue = 0;
 var initialPlayerId = null;
 var curPlayerId = 0;
 var numOfPlayer = 0;
+var gameStage = 0;
+var foldedTotalValue = 0;
 const Action = {FOLD: "FOLD", BET: "BET", RAISE: "RAISE"}
 
 let curBetted = new Map();
 let foldedPlayerIds = new Set();
 let publicCards = null;
+let handCards = null;
 function gameClientConnect() {
     var socket = new SockJS('/java_project');
     gameClient = Stomp.over(socket);
@@ -28,7 +31,6 @@ function handleGameStartMessage(obj) {
     numOfPlayer = len;
     var pos = 1;
     for (let i = counter; i < 6 + counter && i < counter + len; i++) {
-        console.log(obj['players'][i%len]['id'])
         if (obj['players'][i%len]['id'] === myid) {
             append_str = "<p id='player0-name'>" + obj['players'][i%len]['id'] + "</p>" +
                 "<p id='player0-money'>" + "current money: " + obj['players'][i%len]['money'] + "</p>";
@@ -56,6 +58,14 @@ function handleGameStartMessage(obj) {
     }
     document.getElementById("board-bet").innerHTML = "Cur Bet: " + curValue;
 }
+function moveToNext() {
+    for (let i = 0; i < curBetted.size; i++) {
+        if (!foldedPlayerIds.has(i) && curValue - curBetted.get(i) !== 0) {
+            return false;
+        }
+    }
+    return true;
+}
 function handleActionMessage(obj) {
     updateClient(curPlayerId, obj['action'], obj['raiseAmount'])
     $("#player" + curPlayerId + "-name-chips").css("border", "0px solid yellow");
@@ -75,17 +85,69 @@ function handleActionMessage(obj) {
         curBetted.set(curPlayerId, 0);
     }
     if (curPlayerId === 0) {
-        console.log("call value: " + curValue - curBetted.get(curPlayerId))
-        console.log(curValue)
-        console.log(curBetted)
         document.getElementById("call-button").innerText = "CALL " + (curValue - curBetted.get(curPlayerId))
     }
     // If cur total money == cur bet * number of user: open first three cards
-    if (totalValue === (numOfPlayer - foldedPlayerIds.size) * curValue) {
+    if (moveToNext()) {
         // open first three cards
-        for (let i = 0; i < 3; i++) {
-            let file = publicCards[i]['rankString'].toLowerCase() + "_of_" + publicCards[i]['suits'].toLowerCase() + "s.png";
-            $("#flop" + (i + 1)).css("background-image", "url('./images/" + file + "')");
+        if (gameStage === 0) {
+            for (let i = 0; i < 3; i++) {
+                let file = publicCards[i]['rankString'].toLowerCase() + "_of_" + publicCards[i]['suits'].toLowerCase() + "s.png";
+                $("#flop" + (i + 1)).css("background-image", "url('./images/" + file + "')");
+            }
+            gameStage = 1;
+        } else if (gameStage === 1) {
+            let file = publicCards[3]['rankString'].toLowerCase() + "_of_" + publicCards[3]['suits'].toLowerCase() + "s.png";
+            $("#turn").css("background-image", "url('./images/" + file + "')");
+            gameStage = 2;
+        } else if (gameStage === 2){
+            let file = publicCards[4]['rankString'].toLowerCase() + "_of_" + publicCards[4]['suits'].toLowerCase() + "s.png";
+            $("#river").css("background-image", "url('./images/" + file + "')");
+            gameStage = 3;
+        } else {
+            // Competition
+            // Evaluator Reference: https://github.com/chenosaurus/poker-evaluator/
+            // If you have poker-evaluator installed, you can use that to compare who's winning!
+            /*
+            var PokerEvaluator = require("poker-evaluator");
+            var pub = []
+            var maxValue = 0;
+            var maxName = null;
+            var maxlist = null;
+            for (let i = 0; i < publicCards.size; i++) {
+                if (publicCards[i]['rankString'] === "10") {
+                    str = "t" + publicCards[i]['suits'].charAt(0).toLowerCase();
+                } else {
+                    str = publicCards[i]['rankString'].charAt(0).toLowerCase() + publicCards[i]['suits'].charAt(0).toLowerCase();
+                }
+                pub.push(str);
+            }
+            for (let i = 0; i < numOfPlayer; i++) {
+                if (!foldedPlayerIds.has(i)) {
+                    var cur = JSON.parse(JSON.stringify(pub));
+                    var name = document.getElementById("player" + i).innerText;
+                    // compare
+                    var cards = handCards['name'];
+                    for (let i = 0; i < cards.size; i++) {
+                        if (cards[i]['rankString'] === "10") {
+                            str = "t" + cards[i]['suits'].charAt(0).toLowerCase();
+                        } else {
+                            str = cards[i]['rankString'].charAt(0).toLowerCase() + cards[i]['suits'].charAt(0).toLowerCase();
+                        }
+                        cur.push(str);
+                        if (maxlist === null) {
+                            maxlist = cur;
+                        }
+                        new_value = PokerEvaluator.evalHand(cur);
+                        if (new_value['value'] > maxValue) {
+                            maxValue = new_value['value'];
+                            maxName = name;
+                        }
+                    }
+                }
+            }
+            alert("After comparison, " + maxName + "has won the game"); */
+            alert("Please install the below package and uncomment codes where generate this message, then you can get the winner automatically! reference: https://github.com/chenosaurus/poker-evaluator/")
         }
     }
 }
@@ -95,10 +157,10 @@ function handleCardsResponseMessage(obj) {
         let card = cards[i];
         let file = card['rankString'].toLowerCase() + "_of_" + card['suits'].toLowerCase() + "s.png";
         console.log("change card image to " + file);
-        console.log("object id: " + "player0-card" + (i+1));
         $("#player0-card" + (i + 1)).css("background-image", "url('./images/" + file + "')");
     }
     publicCards = obj['publicCards'];
+    handCards = obj['handCards'];
 }
 function gameCallBack(msg) {
     obj = JSON.parse(msg.body);
@@ -116,11 +178,14 @@ function gameCallBack(msg) {
 }
 function fold() {
     if (curPlayerId === 0) {
-        disableUser(curPlayerId)
         send_str = JSON.stringify({'userId': sessionStorage.getItem('userId'),
             'roomId': 1,
-            'action': Action.BET})
+            'action': Action.FOLD})
         gameClient.send("/app/room/action", {}, send_str);
+        console.log("Sending JSON to Server!")
+        console.log("----------------------------------")
+        console.log(send_str);
+        console.log("----------------------------------")
     }
 }
 
@@ -132,6 +197,7 @@ function disableUser(id) {
 function updateClient(id, action, amount) {
     if (action === Action.FOLD) {
         foldedPlayerIds.add(id);
+        foldedTotalValue = totalValue;
         disableUser(curPlayerId);
         return;
     }
@@ -207,10 +273,11 @@ $(function () {
             try {
                 msg = JSON.parse(message);
                 message = JSON.stringify(msg, null, 2)
-                logger.innerText += message;
+                logger.innerText += message + '\n';
             } catch (e) {
-                logger.innerText += message;
+                logger.innerText += message + '\n';
             }
         }
+        logger.scrollTo(0, logger.scrollHeight);
     }
 });
