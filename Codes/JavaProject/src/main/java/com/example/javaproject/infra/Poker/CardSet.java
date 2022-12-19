@@ -28,6 +28,10 @@ public class CardSet {
         }
         used = new ArrayList<>();
         this.shuffle();
+        flopCards = new ArrayList<Card>();
+//        turnCard = new Card();
+
+
     }
     public static void shuffle() {
         Collections.shuffle(cards);

@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class EquivalenceClassControl {
-    private static final Collection<EquivalenceClass> equivalenceClasses = new ArrayList<EquivalenceClass>();
+    private final Collection<EquivalenceClass> equivalenceClasses = new ArrayList<EquivalenceClass>();
 
 
     public EquivalenceClassControl() {
@@ -15,7 +15,7 @@ public class EquivalenceClassControl {
     /**
      * Converts two cards into their corrispondent equivalence class
      * */
-    public static EquivalenceClass cards2Equivalence(Card card1, Card card2) {
+    public EquivalenceClass cards2Equivalence(Card card1, Card card2) {
         EquivalenceClass equivalenceClass;
         if (card1.getSuits().equals(card2.getSuits())) { // suited
             equivalenceClass = new EquivalenceClassSuited(card1.getRank(),card2.getRank());
@@ -25,11 +25,11 @@ public class EquivalenceClassControl {
         return equivalenceClass;
     }
 
-    public static Collection<EquivalenceClass> getEquivalenceClasses() {
+    public Collection<EquivalenceClass> getEquivalenceClasses() {
         return equivalenceClasses;
     }
 
-    public static void generateAllEquivalenceClass()  {
+    public void generateAllEquivalenceClass()  {
         EquivalenceClass equivalenceClass;
         List<Integer> allCardNumbers = new ArrayList<Integer>();
 

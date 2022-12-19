@@ -2,22 +2,25 @@ package com.example.javaproject.AI.Persistent;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
 public class PersistenceManager {
-    private static final Connection connection = createConnection();
+    private final Connection connection;
 
     public PersistenceManager() {
-
+        connection = createConnection();
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         return connection;
     }
 
-    private static Connection createConnection() {
+    private Connection createConnection() {
         try {
             Class.forName("org.h2.Driver");
-            return DriverManager.getConnection("jdbc:h2:data/data", "sa", "");
+//            return DriverManager.getConnection("jdbc:h2:data/data", "sa", "");
+//            return DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+            return DriverManager.getConnection("jdbc:h2:./data/data", "sa", "");
+
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getLocalizedMessage());

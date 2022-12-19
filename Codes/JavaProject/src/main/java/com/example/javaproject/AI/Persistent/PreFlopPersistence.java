@@ -7,17 +7,17 @@ import java.sql.Statement;
 
 public class PreFlopPersistence {
     private static final String TABLE_EQUIVALENCE_NAME = "Equivalences";
+    private final PersistenceManager persistenceManager;
 
-
-    public PreFlopPersistence() {
-
+    public PreFlopPersistence(PersistenceManager persistenceManager) {
+        this.persistenceManager = persistenceManager;
         init();
     }
 
-    public static void persist(int numberOfPlayers, EquivalenceClass equivalenceClass, double percentage) {
+    public  void persist(int numberOfPlayers, EquivalenceClass equivalenceClass, double percentage) {
         try {
             String insert = "INSERT INTO " + TABLE_EQUIVALENCE_NAME + " VALUES(?,?,?,?,?)";
-            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(insert);
+            PreparedStatement statement = this.persistenceManager.getConnection().prepareStatement(insert);
             statement.setInt(1, numberOfPlayers);
             statement.setString(2, equivalenceClass.getNumber1().toString());
             statement.setString(3, equivalenceClass.getNumber2().toString());
@@ -31,15 +31,30 @@ public class PreFlopPersistence {
         }
     }
 
-    public static double retrieve(int numberOfPlayers, EquivalenceClass equivalenceClass) {
+    public  double retrieve(int numberOfPlayers, EquivalenceClass equivalenceClass) {
         String number1 = equivalenceClass.getNumber1().toString();
         String number2 = equivalenceClass.getNumber2().toString();
         String type = equivalenceClass.getType();
         String query = "SELECT wins FROM " + TABLE_EQUIVALENCE_NAME + " WHERE players = ? AND type = ? AND " +
                 "((number1 = ? AND number2 = ?) OR (number1 = ? AND number2 = ?))";
 
+//        try {
+//            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(query);
+//            statement.setInt(1, numberOfPlayers);
+//            statement.setString(2, type);
+//            statement.setString(3, number1);
+//            statement.setString(4, number2);
+//            statement.setString(5, number2);
+//            statement.setString(6, number1);
+//            ResultSet result = statement.executeQuery();
+//            return result.getDouble("wins");
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e.getLocalizedMessage());
+//        }
         try {
-            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(query);
+            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(query);
             statement.setInt(1, numberOfPlayers);
             statement.setString(2, type);
             statement.setString(3, number1);
@@ -56,12 +71,13 @@ public class PreFlopPersistence {
             e.printStackTrace();
             throw new RuntimeException(e.getLocalizedMessage());
         }
+
     }
 
     public void print() {
         String query = "SELECT * FROM " + TABLE_EQUIVALENCE_NAME;
         try {
-            PreparedStatement statement = PersistenceManager.getConnection().prepareStatement(query);
+            PreparedStatement statement = persistenceManager.getConnection().prepareStatement(query);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 System.out.println(result.getInt("players") + "\t" + result.getString("number1")
@@ -76,7 +92,7 @@ public class PreFlopPersistence {
 
     private void init() {
         try {
-            Statement statement = PersistenceManager.getConnection().createStatement();
+            Statement statement = persistenceManager.getConnection().createStatement();
             String query = "CREATE TABLE IF NOT EXISTS " + TABLE_EQUIVALENCE_NAME + "(players integer," +
                     "number1 VARCHAR_IGNORECASE,number2 VARCHAR_IGNORECASE, type VARCHAR_IGNORECASE, wins double)";
             statement.executeUpdate(query);

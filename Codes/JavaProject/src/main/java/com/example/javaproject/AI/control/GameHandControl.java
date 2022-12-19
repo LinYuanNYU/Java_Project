@@ -55,7 +55,7 @@ public class GameHandControl {
             /*More than one player on the game. Continue. TODO*/
 
             for (Player player : game.getPlayers()) {
-                System.out.println("Player" + player.number + " (" + player.getPlayerController().toString() + ")" + ": " + player
+                System.out.println("Player:" + player.number + " (" + player.getPlayerController().toString() + ")" + ": " + player
                         .getMoney() + "$");
             }
         }
@@ -129,13 +129,30 @@ public class GameHandControl {
             applyDecision(gameHand, player, bettingDecision);
             toPlay--;
 
+
+            Integer playerMoney = player.getMoney();
+            Integer playerID = player.getNumber();
+            List<Card> playerHoleCards = player.getHoleCards();
+            List<Card> flopCards = CardSet.getFlopCards();
+            Card turnCards = CardSet.getTurnCard();
+            Card riverCards = CardSet.getRiverCard();
+            /*Shared cards*/
+            List<Card> sharedCards = gameHand.getSharedCards();
+            if (bettingDecision == BettingDecision.FOLD) {
+                Integer raiseTo = null;
+            } else {
+                Integer raiseTo = GameHand.raiseValue;
+            }
+
+
+
         }
 
         // Check if we have a winner
         if (gameHand.getPlayersCount() == 1) {
             Player winner = gameHand.getCurrentPlayer();
             winner.addMoney(gameHand.getTotalBets());
-            System.out.println("WINNER:" + winner + ": WIN! +" + gameHand.getTotalBets() + "$");
+            System.out.println("WINNER: Player" + winner.getNumber() + ": WIN! +" + gameHand.getTotalBets() + "$");
 
             return true;
         }
@@ -159,9 +176,9 @@ public class GameHandControl {
         int sb = Math.min(smallBlindPlayer.getMoney(), gameProperties.getSmallBlind());
         int bb = Math.min(bigBlindPlayer.getMoney(), gameProperties.getBigBlind());
 
-        System.out.println(smallBlindPlayer + ": Small blind "
+        System.out.println("Player"+smallBlindPlayer.getNumber() + ": Small blind "
                 + sb + "$");
-        System.out.println(bigBlindPlayer + ": Big blind "
+        System.out.println("Player" + bigBlindPlayer.getNumber() + ": Big blind "
                 + bb + "$");
 
         gameHand.getCurrentBettingRound().placeBet(smallBlindPlayer,
@@ -176,7 +193,7 @@ public class GameHandControl {
         gameHand.applyDecision(player, bettingDecision, gameProperties, handStrength);
 
         BettingRound bettingRound = gameHand.getCurrentBettingRound();
-        System.out.println(player + ": " + bettingDecision + " "
+        System.out.println("Player"+player.getNumber() + ": " + bettingDecision + " "
                 + bettingRound.getBetForPlayer(player) + "$");
     }
 
@@ -191,7 +208,7 @@ public class GameHandControl {
             mergeCards.addAll(sharedCards);
             HandPower handPower = HandPowerRanker.rank(mergeCards);
 
-            System.out.println(player + ": " + handPower);
+            System.out.println("Player" + player.getNumber() + ": " + handPower);
 
             if (bestHandPower == null || handPower.compareTo(bestHandPower) > 0) {
                 winners.clear();
@@ -219,7 +236,7 @@ public class GameHandControl {
                 gainAndModulo += modulo;
             }
             winner.addMoney(gainAndModulo);
-            System.out.println("WINNER: "+winner + ": WIN! +" + gainAndModulo + "$");
+            System.out.println("WINNER:  Player"+winner.getNumber() + ": WIN! +" + gainAndModulo + "$");
 
             modulo--;
         }
