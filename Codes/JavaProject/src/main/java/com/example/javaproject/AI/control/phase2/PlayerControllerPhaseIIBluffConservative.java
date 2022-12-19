@@ -20,11 +20,12 @@ import java.util.Random;
 public class PlayerControllerPhaseIIBluffConservative extends PlayerControllerPhaseII {
 
 
-
-    public PlayerControllerPhaseIIBluffConservative() {
+    private final PreFlopPersistence preFlopPersistence;
+    private final EquivalenceClassControl equivalenceClassControl;
+    public PlayerControllerPhaseIIBluffConservative(PreFlopPersistence preFlopPersistence) {
         super();
-
-
+        this.preFlopPersistence = preFlopPersistence;
+        this.equivalenceClassControl = new EquivalenceClassControl();
     }
 
     @Override
@@ -36,8 +37,8 @@ public class PlayerControllerPhaseIIBluffConservative extends PlayerControllerPh
     public BettingDecision decidePreFlop(Player player, GameHand gameHand, List<Card> cards) {
         Card card1 = cards.get(0);
         Card card2 = cards.get(1);
-        EquivalenceClass equivalenceClass = EquivalenceClassControl.cards2Equivalence(card1, card2);
-        double percentageOfWins = PreFlopPersistence.retrieve(gameHand.getPlayers().size(), equivalenceClass);
+        EquivalenceClass equivalenceClass = equivalenceClassControl.cards2Equivalence(card1, card2);
+        double percentageOfWins = preFlopPersistence.retrieve(gameHand.getPlayers().size(), equivalenceClass);
         //System.out.println(percentageOfWins);
         //System.out.println(gameHand.getCurrentBettingRound().getBetForPlayer(player));
         int bigB_position = 0;

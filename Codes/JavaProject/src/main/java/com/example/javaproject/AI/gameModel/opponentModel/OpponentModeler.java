@@ -14,8 +14,10 @@ import java.util.*;
 
 public class OpponentModeler {
     private static final Map<Player, List<ContextAggregate>> playerModels = new HashMap<Player, List<ContextAggregate>>();
+    private final OpponentsModelPersistence opponentsModelPersistence;
 
     public OpponentModeler() {
+        this.opponentsModelPersistence = new OpponentsModelPersistence();
     }
 
     public static void save(GameHand gameHand) {
@@ -33,8 +35,8 @@ public class OpponentModeler {
         }
     }
 
-    public static ModelResult getEstimatedHandStrength(ContextAction contextAction) {
-        return OpponentsModelPersistence.retrieve(contextAction);
+    public ModelResult getEstimatedHandStrength(ContextAction contextAction) {
+        return opponentsModelPersistence.retrieve(contextAction);
     }
 
     public static Map<Player, List<ContextAggregate>> getPlayerModels() {

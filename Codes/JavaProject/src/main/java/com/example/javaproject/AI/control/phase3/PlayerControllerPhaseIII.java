@@ -16,11 +16,11 @@ import com.example.javaproject.AI.control.phase2.*;
 import java.util.List;
 public abstract class PlayerControllerPhaseIII extends PlayerControl {
     private final PlayerControllerPhaseIIBluffConservative playerControllerPhaseIIBluffConservative;
+    private final OpponentModeler opponentModeler;
 
-
-    protected PlayerControllerPhaseIII() {
-        this.playerControllerPhaseIIBluffConservative = new PlayerControllerPhaseIIBluffConservative();
-
+    protected PlayerControllerPhaseIII(PreFlopPersistence preFlopPersistence) {
+        this.playerControllerPhaseIIBluffConservative = new PlayerControllerPhaseIIBluffConservative(preFlopPersistence);
+        this.opponentModeler = new OpponentModeler();
     }
 
 
@@ -44,7 +44,7 @@ public abstract class PlayerControllerPhaseIII extends PlayerControl {
                 ContextAction contextAction = currentBettingRound.getContextActionForPlayer(opponent);
 
                 if (contextAction != null) {
-                    ModelResult modelResult = OpponentModeler.getEstimatedHandStrength(contextAction);
+                    ModelResult modelResult = opponentModeler.getEstimatedHandStrength(contextAction);
 
                     // If we don't have enough occurence or if the variance is big, the information is not valuable
                     if (modelResult.getNumberOfOccurences() > 3 && modelResult.getHandStrengthDeviation() <= 0.15) {

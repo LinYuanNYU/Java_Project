@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Random;
 public class PlayerControllerPhaseIIIAgressive extends PlayerControllerPhaseIII {
 
-    public PlayerControllerPhaseIIIAgressive() {
-        super();
+    public PlayerControllerPhaseIIIAgressive(PreFlopPersistence preFlopPersistence) {
+        super(preFlopPersistence);
     }
 
 

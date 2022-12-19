@@ -19,8 +19,8 @@ import java.util.Random;
 
 public class PlayerControllerPhaseIIIConservative extends PlayerControllerPhaseIII {
 
-    public PlayerControllerPhaseIIIConservative() {
-        super();
+    public PlayerControllerPhaseIIIConservative(PreFlopPersistence preFlopPersistence) {
+        super(preFlopPersistence);
     }
 
 
